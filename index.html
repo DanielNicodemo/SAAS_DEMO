@@ -185,6 +185,19 @@
         <div class="container">
             <h2 class="section-title">Antes e Depois</h2>
             <p class="section-subtitle">Veja a diferença que o insulfilm faz</p>
+            <div class="comparison-controls" aria-label="Controles de comparativo">
+                <div class="comparison-type-selector" role="group" aria-label="Tipo de aplicação">
+                    <button class="comparison-btn comparison-type-btn active" data-comparison-type="carro" type="button">Carros</button>
+                    <button class="comparison-btn comparison-type-btn" data-comparison-type="casa" type="button">Casas</button>
+                </div>
+                <div class="comparison-visibility-selector" role="group" aria-label="Nível de visibilidade do insulfilm">
+                    <button class="comparison-btn comparison-level-btn active" data-comparison-level="G5" type="button">G5</button>
+                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G20" type="button">G20</button>
+                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G35" type="button">G35</button>
+                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G50" type="button">G50</button>
+                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G70" type="button">G70</button>
+                </div>
+            </div>
             <div class="comparison-slider">
                 <div class="comparison-container">
                     <img src="images/antes-depois/antes1.png" alt="Veículo sem insulfilm" class="comparison-before" loading="lazy">
@@ -197,7 +210,7 @@
                 </div>
                 <div class="comparison-labels">
                     <span class="label-before">Antes</span>
-                    <span class="label-after">Depois</span>
+                    <span class="label-after" id="comparisonAfterLabel">Depois - G5 (5% visibilidade)</span>
                 </div>
             </div>
         </div>

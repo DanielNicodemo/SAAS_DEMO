@@ -424,6 +424,46 @@ body {
     margin: 0 auto;
 }
 
+.comparison-controls {
+    max-width: 800px;
+    margin: 0 auto 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.comparison-type-selector,
+.comparison-visibility-selector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.comparison-btn {
+    border: 2px solid var(--primary-color);
+    background: var(--white);
+    color: var(--primary-color);
+    padding: 10px 22px;
+    border-radius: 999px;
+    font-size: 0.98rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.comparison-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.comparison-btn.active {
+    background: var(--primary-color);
+    color: var(--white);
+}
+
 .comparison-container {
     position: relative;
     width: 100%;
@@ -988,6 +1028,10 @@ body {
         height: 350px;
     }
 
+    .comparison-btn {
+        min-width: 90px;
+    }
+
     .footer-bottom {
         flex-direction: column;
         text-align: center;
@@ -1039,6 +1083,21 @@ body {
 
     .comparison-container {
         height: 250px;
+    }
+
+    .comparison-controls {
+        margin-bottom: 20px;
+    }
+
+    .comparison-type-selector,
+    .comparison-visibility-selector {
+        gap: 10px;
+    }
+
+    .comparison-btn {
+        padding: 9px 16px;
+        font-size: 0.9rem;
+        min-width: 76px;
     }
 }
 

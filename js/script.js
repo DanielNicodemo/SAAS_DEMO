@@ -262,10 +262,77 @@ class ComparisonSlider {
     constructor() {
         this.container = document.querySelector('.comparison-container');
         this.handle = document.querySelector('.comparison-slider-handle');
+        this.beforeImage = document.querySelector('.comparison-before');
         this.afterImage = document.querySelector('.comparison-after');
+        this.typeButtons = document.querySelectorAll('.comparison-type-btn');
+        this.levelButtons = document.querySelectorAll('.comparison-level-btn');
+        this.afterLabel = document.getElementById('comparisonAfterLabel');
+        this.visibilityMap = {
+            G5: 5,
+            G20: 20,
+            G35: 35,
+            G50: 50,
+            G70: 70
+        };
+        this.comparisonData = {
+            carro: {
+                beforeSrc: 'images/antes-depois/antes1.png',
+                beforeAlt: 'Carro sem insulfilm',
+                levels: {
+                    G5: {
+                        src: 'images/antes-depois/depois1.png',
+                        alt: 'Carro com insulfilm G5'
+                    },
+                    G20: {
+                        src: 'images/antes-depois/depois.jpeg',
+                        alt: 'Carro com insulfilm G20'
+                    },
+                    G35: {
+                        src: 'images/antes-depois/depois1.png',
+                        alt: 'Carro com insulfilm G35'
+                    },
+                    G50: {
+                        src: 'images/antes-depois/depois.jpeg',
+                        alt: 'Carro com insulfilm G50'
+                    },
+                    G70: {
+                        src: 'images/antes-depois/depois1.png',
+                        alt: 'Carro com insulfilm G70'
+                    }
+                }
+            },
+            casa: {
+                beforeSrc: 'images/hero/casa.jpeg',
+                beforeAlt: 'Casa sem insulfilm',
+                levels: {
+                    G5: {
+                        src: 'images/hero/residencia.png',
+                        alt: 'Casa com insulfilm G5'
+                    },
+                    G20: {
+                        src: 'images/hero/residencia.png',
+                        alt: 'Casa com insulfilm G20'
+                    },
+                    G35: {
+                        src: 'images/hero/residencia.png',
+                        alt: 'Casa com insulfilm G35'
+                    },
+                    G50: {
+                        src: 'images/hero/residencia.png',
+                        alt: 'Casa com insulfilm G50'
+                    },
+                    G70: {
+                        src: 'images/hero/residencia.png',
+                        alt: 'Casa com insulfilm G70'
+                    }
+                }
+            }
+        };
+        this.currentType = 'carro';
+        this.currentLevel = 'G5';
         this.isDragging = false;
         
-        if (this.container && this.handle && this.afterImage) {
+        if (this.container && this.handle && this.beforeImage && this.afterImage) {
             this.init();
         }
     }
@@ -279,6 +346,60 @@ class ComparisonSlider {
         this.handle.addEventListener('touchstart', () => this.isDragging = true);
         document.addEventListener('touchend', () => this.isDragging = false);
         document.addEventListener('touchmove', (e) => this.handleMove(e));
+
+        this.setupSelectors();
+        this.updateComparisonView();
+    }
+
+    setupSelectors() {
+        this.typeButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const selectedType = button.getAttribute('data-comparison-type');
+                if (!selectedType || selectedType === this.currentType) return;
+
+                this.currentType = selectedType;
+                this.typeButtons.forEach((btn) => btn.classList.remove('active'));
+                button.classList.add('active');
+                this.updateComparisonView();
+            });
+        });
+
+        this.levelButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const selectedLevel = button.getAttribute('data-comparison-level');
+                if (!selectedLevel || selectedLevel === this.currentLevel) return;
+
+                this.currentLevel = selectedLevel;
+                this.levelButtons.forEach((btn) => btn.classList.remove('active'));
+                button.classList.add('active');
+                this.updateComparisonView();
+            });
+        });
+    }
+
+    updateComparisonView() {
+        const typeData = this.comparisonData[this.currentType];
+        if (!typeData) return;
+
+        const levelData = typeData.levels[this.currentLevel];
+        if (!levelData) return;
+
+        this.beforeImage.src = typeData.beforeSrc;
+        this.beforeImage.alt = typeData.beforeAlt;
+        this.afterImage.src = levelData.src;
+        this.afterImage.alt = levelData.alt;
+
+        const visibility = this.visibilityMap[this.currentLevel] || this.currentLevel.replace('G', '');
+        if (this.afterLabel) {
+            this.afterLabel.textContent = `Depois - ${this.currentLevel} (${visibility}% visibilidade)`;
+        }
+
+        this.resetSlider();
+    }
+
+    resetSlider() {
+        this.handle.style.left = '50%';
+        this.afterImage.style.clipPath = 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)';
     }
     
     handleMove(e) {
