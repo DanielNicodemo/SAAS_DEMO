@@ -276,27 +276,27 @@ class ComparisonSlider {
         };
         this.comparisonData = {
             carro: {
-                beforeSrc: 'images/antes-depois/antes1.png',
+                beforeSrc: 'images/antes-depois/vermelho.jpg',
                 beforeAlt: 'Carro sem insulfilm',
                 levels: {
                     G5: {
-                        src: 'images/antes-depois/depois1.png',
+                        src: 'images/antes-depois/vermelho_g5.jpg',
                         alt: 'Carro com insulfilm G5'
                     },
                     G20: {
-                        src: 'images/antes-depois/depois.jpeg',
+                        src: 'images/antes-depois/vermelho_g20.jpeg',
                         alt: 'Carro com insulfilm G20'
                     },
                     G35: {
-                        src: 'images/antes-depois/depois1.png',
+                        src: 'images/antes-depois/vermelho_g35.jpg',
                         alt: 'Carro com insulfilm G35'
                     },
                     G50: {
-                        src: 'images/antes-depois/depois.jpeg',
+                        src: 'images/antes-depois/vermelho_g50.jpg',
                         alt: 'Carro com insulfilm G50'
                     },
                     G70: {
-                        src: 'images/antes-depois/depois1.png',
+                        src: 'images/antes-depois/vermelho_g70.jpeg',
                         alt: 'Carro com insulfilm G70'
                     }
                 }
@@ -338,12 +338,18 @@ class ComparisonSlider {
     }
     
     init() {
-        this.handle.addEventListener('mousedown', () => this.isDragging = true);
+        this.handle.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            this.isDragging = true;
+        });
         document.addEventListener('mouseup', () => this.isDragging = false);
         document.addEventListener('mousemove', (e) => this.handleMove(e));
         
         // Touch events
-        this.handle.addEventListener('touchstart', () => this.isDragging = true);
+        this.handle.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            this.isDragging = true;
+        }, { passive: false });
         document.addEventListener('touchend', () => this.isDragging = false);
         document.addEventListener('touchmove', (e) => this.handleMove(e));
 
