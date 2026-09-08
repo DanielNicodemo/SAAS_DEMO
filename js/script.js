@@ -302,27 +302,27 @@ class ComparisonSlider {
                 }
             },
             casa: {
-                beforeSrc: 'images/hero/casa.jpeg',
+                beforeSrc: 'images/antes-depois/casa.jpg',
                 beforeAlt: 'Casa sem insulfilm',
                 levels: {
                     G5: {
-                        src: 'images/hero/residencia.png',
+                        src: 'images/antes-depois/casa_g5.jpg',
                         alt: 'Casa com insulfilm G5'
                     },
                     G20: {
-                        src: 'images/hero/residencia.png',
+                        src: 'images/antes-depois/casa_g20.jpg',
                         alt: 'Casa com insulfilm G20'
                     },
                     G35: {
-                        src: 'images/hero/residencia.png',
+                        src: 'images/antes-depois/casa_g35.jpg',
                         alt: 'Casa com insulfilm G35'
                     },
                     G50: {
-                        src: 'images/hero/residencia.png',
+                        src: 'images/antes-depois/casa_g50.jpg',
                         alt: 'Casa com insulfilm G50'
                     },
                     G70: {
-                        src: 'images/hero/residencia.png',
+                        src: 'images/antes-depois/casa_g70.jpg',
                         alt: 'Casa com insulfilm G70'
                     }
                 }
