@@ -202,6 +202,32 @@ const produtosInfo = {
             'Ideal para segurança patrimonial'
         ],
         preco: 'R$ 799'
+    },
+    ppf: {
+        titulo: 'Película PPF (Paint Protection Film)',
+        descricao: 'Proteção transparente de altíssima resistência para a pintura do seu veículo',
+        caracteristicas: [
+            'Proteção contra pedriscos, arranhões e riscos de chaves',
+            'Propriedade autorregenerativa (Self-Healing com calor)',
+            'Brilho espelhado e acabamento profundo de showroom',
+            'Efeito hidrofóbico (repulsão de água e sujeira)',
+            'Garantia de até 10 anos contra amarelamento',
+            'Preserva a pintura original e o valor de revenda'
+        ],
+        preco: 'R$ 1.499'
+    },
+    kit_instalacao: {
+        titulo: 'Kit de Instalação de Insulfilm e PPF',
+        descricao: 'NEWISHTOOL Kit de aplicação de película de janela, ferramentas de instalação de matiz de carro com frasco de pulverização, espátula de feltro PPF, raspador de feltro para veículos, ferramenta de instalação de película protetora de vidro, kit de envoltório de vinil, kit de ferramentas de tingimento.',
+        caracteristicas: [
+            'Frasco de pulverização (borrifador profissional)',
+            'Espátula de feltro suave especial para PPF e vinil',
+            'Raspador de feltro para remoção de bolhas sem arranhar',
+            'Ferramenta de instalação de película protetora de vidro',
+            'Kit completo para envoltório de vinil e tingimento',
+            'Ferramentas de alta precisão para aplicação perfeita'
+        ],
+        preco: 'R$ 149'
     }
 };
 
@@ -260,172 +286,456 @@ document.addEventListener('keydown', (e) => {
 
 class ComparisonSlider {
     constructor() {
-        this.container = document.querySelector('.comparison-container');
-        this.handle = document.querySelector('.comparison-slider-handle');
-        this.beforeImage = document.querySelector('.comparison-before');
-        this.afterImage = document.querySelector('.comparison-after');
+        this.container = document.getElementById('comparisonContainer') || document.querySelector('.comparison-container');
+        this.handle = document.getElementById('sliderHandle') || document.querySelector('.comparison-slider-handle');
+        this.beforeImage = document.getElementById('imgBefore') || document.querySelector('.comparison-before');
+        this.afterWrapper = document.getElementById('afterWrapper') || document.querySelector('.comparison-after-wrapper');
+        this.afterImage = document.getElementById('imgAfter') || document.querySelector('.comparison-after');
+        this.tintOverlayLayer = document.getElementById('tintOverlayLayer');
+        this.ppfGlossOverlay = document.getElementById('ppfGlossOverlay');
+        this.beforeBadge = document.querySelector('.badge-before');
+        this.afterBadge = document.getElementById('comparisonAfterBadge');
+        
         this.typeButtons = document.querySelectorAll('.comparison-type-btn');
-        this.levelButtons = document.querySelectorAll('.comparison-level-btn');
-        this.afterLabel = document.getElementById('comparisonAfterLabel');
-        this.visibilityMap = {
-            G5: 5,
-            G20: 20,
-            G35: 35,
-            G50: 50,
-            G70: 70
-        };
-        this.comparisonData = {
-            carro: {
-                beforeSrc: 'images/antes-depois/vermelho.jpg',
-                beforeAlt: 'Carro sem insulfilm',
-                levels: {
-                    G5: {
-                        src: 'images/antes-depois/vermelho_g5.jpg',
-                        alt: 'Carro com insulfilm G5'
-                    },
-                    G20: {
-                        src: 'images/antes-depois/vermelho_g20.jpeg',
-                        alt: 'Carro com insulfilm G20'
-                    },
-                    G35: {
-                        src: 'images/antes-depois/vermelho_g35.jpg',
-                        alt: 'Carro com insulfilm G35'
-                    },
-                    G50: {
-                        src: 'images/antes-depois/vermelho_g50.jpg',
-                        alt: 'Carro com insulfilm G50'
-                    },
-                    G70: {
-                        src: 'images/antes-depois/vermelho_g70.jpeg',
-                        alt: 'Carro com insulfilm G70'
-                    }
+        this.angleButtons = document.querySelectorAll('.angle-btn');
+        this.carSelect = document.getElementById('carSelect');
+        this.archSelect = document.getElementById('archSelect');
+        this.ppfSelect = document.getElementById('ppfSelect');
+        this.tintCards = document.querySelectorAll('.tint-card');
+        this.carModelSelector = document.getElementById('carModelSelector');
+        this.archModelSelector = document.getElementById('archModelSelector');
+        this.ppfModelSelector = document.getElementById('ppfModelSelector');
+        this.angleSelectorRow = document.getElementById('angleSelectorRow');
+        this.tintSelectorSection = document.querySelector('.tint-selector-section');
+        this.ppfInfoSection = document.getElementById('ppfInfoSection');
+
+        this.imageDB = {
+            'haval': {
+                'lateral': {
+                    'Original': 'images/antes-depois/carros/01_haval_visao_lateral.jfif',
+                    'G70': 'images/antes-depois/carros/01_haval_visao_lateral G70.jfif',
+                    'G50': 'images/antes-depois/carros/01_haval_visao_lateral G50.jfif',
+                    'G35': 'images/antes-depois/carros/01_haval_visao_lateral G35.jfif',
+                    'G20': 'images/antes-depois/carros/01_haval_visao_lateral G20.jfif',
+                    'G5':  'images/antes-depois/carros/01_haval_visao_lateral G5.jfif'
+                },
+                'frente': {
+                    'Original': 'images/antes-depois/carros/02_haval_visao_frontal.png',
+                    'G70': 'images/antes-depois/carros/01_haval_visao_frontal G70.jfif',
+                    'G50': 'images/antes-depois/carros/01_haval_visao_frontal G50.jfif',
+                    'G35': 'images/antes-depois/carros/01_haval_visao_frontal G35.jfif',
+                    'G20': 'images/antes-depois/carros/01_haval_visao_frontal G20.jfif',
+                    'G5':  'images/antes-depois/carros/01_haval_visao_frontal G5.jfif'
+                },
+                'traseira': {
+                    'Original': 'images/antes-depois/carros/03_haval_visao_traseira.png',
+                    'G70': 'images/antes-depois/carros/01_haval_visao_traseira G70.jfif',
+                    'G50': 'images/antes-depois/carros/01_haval_visao_traseira G50.jfif',
+                    'G35': 'images/antes-depois/carros/01_haval_visao_traseira G35.jfif',
+                    'G20': 'images/antes-depois/carros/01_haval_visao_traseira G20.jfif',
+                    'G5':  'images/antes-depois/carros/01_haval_visao_traseira G5.jfif'
+                },
+                'interna': {
+                    'Original': 'images/antes-depois/carros/visão motorista sem isulfilme.jfif',
+                    'G70': 'images/antes-depois/carros/visão motorista  HAVAL G70.png',
+                    'G50': 'images/antes-depois/carros/visão motorista  HAVAL G50.jfif',
+                    'G35': 'images/antes-depois/carros/visão motorista  HAVAL G35.jfif',
+                    'G20': 'images/antes-depois/carros/visão motorista HAVAL G20.jfif',
+                    'G5':  'images/antes-depois/carros/visão motorista HAVAL G5.jfif'
                 }
             },
-            casa: {
-                beforeSrc: 'images/antes-depois/casa.jpg',
-                beforeAlt: 'Casa sem insulfilm',
-                levels: {
-                    G5: {
-                        src: 'images/antes-depois/casa_g5.jpg',
-                        alt: 'Casa com insulfilm G5'
-                    },
-                    G20: {
-                        src: 'images/antes-depois/casa_g20.jpg',
-                        alt: 'Casa com insulfilm G20'
-                    },
-                    G35: {
-                        src: 'images/antes-depois/casa_g35.jpg',
-                        alt: 'Casa com insulfilm G35'
-                    },
-                    G50: {
-                        src: 'images/antes-depois/casa_g50.jpg',
-                        alt: 'Casa com insulfilm G50'
-                    },
-                    G70: {
-                        src: 'images/antes-depois/casa_g70.jpg',
-                        alt: 'Casa com insulfilm G70'
-                    }
+            'jetta': {
+                'lateral': {
+                    'Original': 'images/antes-depois/carros/05_jetta_visao_lateral.jfif',
+                    'G70': 'images/antes-depois/carros/05_jetta_visao_lateral G70.jfif',
+                    'G50': 'images/antes-depois/carros/05_jetta_visao_lateral G50.jfif',
+                    'G35': 'images/antes-depois/carros/05_jetta_visao_lateral G35.jfif',
+                    'G20': 'images/antes-depois/carros/05_jetta_visao_lateral G20.jfif',
+                    'G5':  'images/antes-depois/carros/05_jetta_visao_lateral G5.jfif'
+                },
+                'frente': {
+                    'Original': 'images/antes-depois/carros/06_jetta_visao_frontal.png',
+                    'G70': 'images/antes-depois/carros/G70 frontal.jfif',
+                    'G50': 'images/antes-depois/carros/G50 frontal.jfif',
+                    'G35': 'images/antes-depois/carros/G35 frontal.jfif',
+                    'G20': 'images/antes-depois/carros/G20 frontal.jfif',
+                    'G5':  'images/antes-depois/carros/G5 frontal.jfif'
+                },
+                'traseira': {
+                    'Original': 'images/antes-depois/carros/07_jetta_visao_traseira.png',
+                    'G70': 'images/antes-depois/carros/G70 traseira.jfif',
+                    'G50': 'images/antes-depois/carros/g50 traseira.jfif',
+                    'G35': 'images/antes-depois/carros/g50 traseira.jfif',
+                    'G20': 'images/antes-depois/carros/G5 traseira.jfif',
+                    'G5':  'images/antes-depois/carros/G5 traseira.jfif'
+                },
+                'interna': {
+                    'Original': 'images/antes-depois/carros/08_jetta_visao_motorista.jfif',
+                    'G70': 'images/antes-depois/carros/08_jetta_visao_motorista G70.jfif',
+                    'G50': 'images/antes-depois/carros/08_jetta_visao_motorista G50.jfif',
+                    'G35': 'images/antes-depois/carros/08_jetta_visao_motorista G35.jfif',
+                    'G20': 'images/antes-depois/carros/08_jetta_visao_motorista G20.jfif',
+                    'G5':  'images/antes-depois/carros/08_jetta_visao_motorista G5.jfif'
                 }
             }
         };
-        this.currentType = 'carro';
-        this.currentLevel = 'G5';
+
+        this.windowClipDB = {
+            'haval': {
+                'lateral':  'polygon(35% 48%, 44% 36%, 77% 36%, 81% 42%, 78% 48%)',
+                'frente':   'polygon(34% 43%, 36% 29%, 64% 29%, 66% 43%)',
+                'traseira': 'polygon(33% 43%, 36% 31%, 64% 31%, 67% 43%)',
+                'interna':  'polygon(20% 62%, 22% 16%, 66% 16%, 80% 62%)'
+            },
+            'jetta': {
+                'lateral':  'polygon(34% 48%, 44% 36%, 76% 36%, 79% 43%, 76% 48%)',
+                'frente':   'polygon(34% 43%, 36% 29%, 64% 29%, 66% 43%)',
+                'traseira': 'polygon(33% 43%, 36% 30%, 64% 30%, 67% 43%)',
+                'interna':  'polygon(20% 62%, 22% 16%, 66% 16%, 80% 62%)'
+            }
+        };
+
+        this.archImageDB = {
+            'residencia1': {
+                'Original': 'images/antes-depois/arquitetura/residencia_1.png',
+                'G70': 'images/antes-depois/arquitetura/residencia_1 G70.jfif',
+                'G50': 'images/antes-depois/arquitetura/residencia_1 G50.jfif',
+                'G35': 'images/antes-depois/arquitetura/residencia_1 G35.jfif',
+                'G20': 'images/antes-depois/arquitetura/residencia_1 G20.jfif',
+                'G5':  'images/antes-depois/arquitetura/residencia_1 G5.jfif'
+            },
+            'residencia2': {
+                'Original': 'images/antes-depois/arquitetura/residencia_2.png',
+                'G70': 'images/antes-depois/arquitetura/residencia 2 G70.jfif',
+                'G50': 'images/antes-depois/arquitetura/residencia 2 G50.jfif',
+                'G35': 'images/antes-depois/arquitetura/residencia 2 G35.jfif',
+                'G20': 'images/antes-depois/arquitetura/residencia 2 G20.jpg',
+                'G5':  'images/antes-depois/arquitetura/residencia 2 G20.jpg'
+            },
+            'empresa1': {
+                'Original': 'images/antes-depois/arquitetura/empresa_1.jpeg',
+                'G70': 'images/antes-depois/arquitetura/Empresa_1 G50.jfif',
+                'G50': 'images/antes-depois/arquitetura/Empresa_1 G50.jfif',
+                'G35': 'images/antes-depois/arquitetura/empresa_1 G35.jfif',
+                'G20': 'images/antes-depois/arquitetura/Empresa_1 G20.jfif',
+                'G5':  'images/antes-depois/arquitetura/Empresa_1 G20.jfif'
+            },
+            'empresa2': {
+                'Original': 'images/antes-depois/arquitetura/empresa_2.jfif',
+                'G70': 'images/antes-depois/arquitetura/empresa_2 G70.jfif',
+                'G50': 'images/antes-depois/arquitetura/empresa_2G50.jfif',
+                'G35': 'images/antes-depois/arquitetura/empresa_2 G35.jfif',
+                'G20': 'images/antes-depois/arquitetura/empresa_2 G20.jfif',
+                'G5':  'images/antes-depois/arquitetura/empresa_2 G5 (3).jfif'
+            }
+        };
+
+        this.archClipDB = {
+            'residencia1': 'polygon(13% 36%, 70% 36%, 70% 78%, 13% 78%)',
+            'residencia2': 'polygon(0% 28%, 78% 28%, 78% 56%, 0% 56%)',
+            'empresa1':    'polygon(3% 58%, 35% 46%, 100% 40%, 100% 88%, 0% 84%)',
+            'empresa2':    'polygon(9% 35%, 92% 35%, 92% 79%, 9% 79%)'
+        };
+
+        this.ppfImageDB = {
+            'renault': {
+                'lateral':  'images/antes-depois/PPF/01l_visao_lateral.png',
+                'frente':   'images/antes-depois/PPF/02_visao_frontal.png',
+                'traseira': 'images/antes-depois/PPF/03_visao_traseira.png'
+            },
+            'spark': {
+                'lateral':  'images/antes-depois/PPF/01l_visao_lateral.png',
+                'frente':   'images/antes-depois/PPF/02_Chevrolet Spark EUV_visao_frontal.png',
+                'traseira': 'images/antes-depois/PPF/03_visao_traseira.png'
+            }
+        };
+
+        this.state = {
+            type: 'automotivo',
+            car: 'haval',
+            angle: 'lateral',
+            arch: 'residencia1',
+            ppfCar: 'renault',
+            tintLevel: 'G70',
+            tintRgba: 'rgba(0,0,0,0.3)'
+        };
+
         this.isDragging = false;
         
         if (this.container && this.handle && this.beforeImage && this.afterImage) {
             this.init();
         }
     }
-    
+
     init() {
-        this.handle.addEventListener('mousedown', (e) => {
-            e.preventDefault();
+        const startDrag = (e) => {
             this.isDragging = true;
-        });
-        document.addEventListener('mouseup', () => this.isDragging = false);
-        document.addEventListener('mousemove', (e) => this.handleMove(e));
-        
-        // Touch events
-        this.handle.addEventListener('touchstart', (e) => {
-            e.preventDefault();
-            this.isDragging = true;
-        }, { passive: false });
-        document.addEventListener('touchend', () => this.isDragging = false);
-        document.addEventListener('touchmove', (e) => this.handleMove(e));
+            this.handleMove(e);
+        };
 
-        this.setupSelectors();
-        this.updateComparisonView();
+        const stopDrag = () => {
+            this.isDragging = false;
+        };
+
+        const onMove = (e) => {
+            if (!this.isDragging) return;
+            this.handleMove(e);
+        };
+
+        if (this.handle) {
+            this.handle.addEventListener('mousedown', startDrag);
+            this.handle.addEventListener('touchstart', startDrag, { passive: true });
+        }
+
+        if (this.container) {
+            this.container.addEventListener('mousedown', startDrag);
+            this.container.addEventListener('touchstart', startDrag, { passive: true });
+        }
+
+        document.addEventListener('mouseup', stopDrag);
+        document.addEventListener('mousemove', onMove);
+        document.addEventListener('touchend', stopDrag);
+        document.addEventListener('touchmove', onMove, { passive: true });
+
+        window.addEventListener('resize', () => this.resetSlider());
+
+        this.setupEventListeners();
+        this.updateView();
     }
 
-    setupSelectors() {
-        this.typeButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const selectedType = button.getAttribute('data-comparison-type');
-                if (!selectedType || selectedType === this.currentType) return;
+    setupEventListeners() {
+        const internaAngleBtn = document.querySelector('[data-angle="interna"]');
 
-                this.currentType = selectedType;
-                this.typeButtons.forEach((btn) => btn.classList.remove('active'));
-                button.classList.add('active');
-                this.updateComparisonView();
+        // Type Buttons (Automotivo / Arquitetura / PPF)
+        this.typeButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const type = btn.getAttribute('data-comparison-type');
+                if (!type || type === this.state.type) return;
+
+                this.state.type = type;
+                this.typeButtons.forEach((b) => {
+                    b.classList.remove('active');
+                    b.setAttribute('aria-selected', 'false');
+                });
+                btn.classList.add('active');
+                btn.setAttribute('aria-selected', 'true');
+
+                if (this.state.type === 'automotivo') {
+                    if (this.carModelSelector) this.carModelSelector.style.display = 'flex';
+                    if (this.archModelSelector) this.archModelSelector.style.display = 'none';
+                    if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'none';
+                    if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'flex';
+                    if (internaAngleBtn) internaAngleBtn.style.display = 'inline-flex';
+                    if (this.tintSelectorSection) this.tintSelectorSection.style.display = 'block';
+                    if (this.ppfInfoSection) this.ppfInfoSection.style.display = 'none';
+                } else if (this.state.type === 'arquitetura') {
+                    if (this.carModelSelector) this.carModelSelector.style.display = 'none';
+                    if (this.archModelSelector) this.archModelSelector.style.display = 'flex';
+                    if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'none';
+                    if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'none';
+                    if (this.tintSelectorSection) this.tintSelectorSection.style.display = 'block';
+                    if (this.ppfInfoSection) this.ppfInfoSection.style.display = 'none';
+                } else if (this.state.type === 'ppf') {
+                    if (this.carModelSelector) this.carModelSelector.style.display = 'none';
+                    if (this.archModelSelector) this.archModelSelector.style.display = 'none';
+                    if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'flex';
+                    if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'flex';
+                    if (internaAngleBtn) internaAngleBtn.style.display = 'none';
+                    if (this.tintSelectorSection) this.tintSelectorSection.style.display = 'none';
+                    if (this.ppfInfoSection) this.ppfInfoSection.style.display = 'block';
+
+                    if (this.state.angle === 'interna') {
+                        this.state.angle = 'lateral';
+                        this.angleButtons.forEach((b) => {
+                            b.classList.toggle('active', b.getAttribute('data-angle') === 'lateral');
+                        });
+                    }
+                }
+
+                this.updateView();
             });
         });
 
-        this.levelButtons.forEach((button) => {
-            button.addEventListener('click', () => {
-                const selectedLevel = button.getAttribute('data-comparison-level');
-                if (!selectedLevel || selectedLevel === this.currentLevel) return;
+        // Dropdowns
+        if (this.carSelect) {
+            this.carSelect.addEventListener('change', (e) => {
+                this.state.car = e.target.value;
+                this.updateView();
+            });
+        }
 
-                this.currentLevel = selectedLevel;
-                this.levelButtons.forEach((btn) => btn.classList.remove('active'));
-                button.classList.add('active');
-                this.updateComparisonView();
+        if (this.archSelect) {
+            this.archSelect.addEventListener('change', (e) => {
+                this.state.arch = e.target.value;
+                this.updateView();
+            });
+        }
+
+        if (this.ppfSelect) {
+            this.ppfSelect.addEventListener('change', (e) => {
+                this.state.ppfCar = e.target.value;
+                this.updateView();
+            });
+        }
+
+        // Angle Buttons
+        this.angleButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                const angle = btn.getAttribute('data-angle');
+                if (!angle || angle === this.state.angle) return;
+
+                this.state.angle = angle;
+                this.angleButtons.forEach((b) => b.classList.remove('active'));
+                btn.classList.add('active');
+                this.updateView();
+            });
+        });
+
+        // Tint Cards
+        this.tintCards.forEach((card) => {
+            card.addEventListener('click', () => {
+                const level = card.getAttribute('data-comparison-level');
+                const rgba = card.getAttribute('data-rgba') || 'rgba(0,0,0,0.3)';
+
+                this.state.tintLevel = level;
+                this.state.tintRgba = rgba;
+
+                this.tintCards.forEach((c) => c.classList.remove('active'));
+                card.classList.add('active');
+                this.updateView();
             });
         });
     }
 
-    updateComparisonView() {
-        const typeData = this.comparisonData[this.currentType];
-        if (!typeData) return;
+    updateView() {
+        if (this.state.type === 'automotivo') {
+            const carViews = this.imageDB[this.state.car] || this.imageDB['haval'];
+            const angleObj = carViews[this.state.angle] || carViews['lateral'];
+            
+            const beforeSrc = (typeof angleObj === 'object') ? (angleObj['Original'] || angleObj['base']) : angleObj;
+            let afterSrc = beforeSrc;
 
-        const levelData = typeData.levels[this.currentLevel];
-        if (!levelData) return;
+            if (typeof angleObj === 'object') {
+                afterSrc = angleObj[this.state.tintLevel] || angleObj['G70'] || beforeSrc;
+            }
 
-        this.beforeImage.src = typeData.beforeSrc;
-        this.beforeImage.alt = typeData.beforeAlt;
-        this.afterImage.src = levelData.src;
-        this.afterImage.alt = levelData.alt;
+            this.beforeImage.src = beforeSrc;
+            this.beforeImage.alt = `Veículo ${this.state.car} (${this.state.angle}) sem insulfilm`;
+            this.beforeImage.style.filter = 'none';
 
-        const visibility = this.visibilityMap[this.currentLevel] || this.currentLevel.replace('G', '');
-        if (this.afterLabel) {
-            this.afterLabel.textContent = `Depois - ${this.currentLevel} (${visibility}% visibilidade)`;
+            this.afterImage.src = afterSrc;
+            this.afterImage.alt = `Veículo ${this.state.car} (${this.state.angle}) com insulfilm ${this.state.tintLevel}`;
+
+            if (this.tintOverlayLayer) {
+                if (afterSrc !== beforeSrc) {
+                    this.tintOverlayLayer.style.display = 'none';
+                } else {
+                    const carClips = this.windowClipDB[this.state.car] || this.windowClipDB['haval'];
+                    const clipVal = carClips[this.state.angle] || carClips['lateral'];
+                    this.tintOverlayLayer.style.display = 'block';
+                    this.tintOverlayLayer.style.backgroundColor = this.state.tintRgba;
+                    this.tintOverlayLayer.style.clipPath = clipVal;
+                }
+            }
+
+            if (this.beforeBadge) this.beforeBadge.textContent = 'Sem Insulfilm';
+            if (this.afterBadge) this.afterBadge.textContent = `Com Insulfilm (${this.state.tintLevel})`;
+            if (this.ppfGlossOverlay) this.ppfGlossOverlay.style.display = 'none';
+        } else if (this.state.type === 'arquitetura') {
+            const archKey = this.state.arch || 'residencia1';
+            const archObj = this.archImageDB[archKey] || this.archImageDB['residencia1'];
+
+            const beforeSrc = (typeof archObj === 'object') ? (archObj['Original'] || archObj['base']) : archObj;
+            let afterSrc = beforeSrc;
+
+            if (typeof archObj === 'object') {
+                afterSrc = archObj[this.state.tintLevel] || archObj['G70'] || beforeSrc;
+            }
+
+            this.beforeImage.src = beforeSrc;
+            this.beforeImage.alt = `Projeto Arquitetura (${archKey}) sem insulfilm`;
+            this.beforeImage.style.filter = 'none';
+
+            this.afterImage.src = afterSrc;
+            this.afterImage.alt = `Projeto Arquitetura (${archKey}) com insulfilm ${this.state.tintLevel}`;
+
+            if (this.tintOverlayLayer) {
+                if (afterSrc !== beforeSrc) {
+                    this.tintOverlayLayer.style.display = 'none';
+                } else {
+                    const clipVal = this.archClipDB[archKey] || this.archClipDB['residencia1'];
+                    this.tintOverlayLayer.style.display = 'block';
+                    this.tintOverlayLayer.style.backgroundColor = this.state.tintRgba;
+                    this.tintOverlayLayer.style.clipPath = clipVal;
+                }
+            }
+
+            if (this.beforeBadge) this.beforeBadge.textContent = 'Sem Insulfilm';
+            if (this.afterBadge) this.afterBadge.textContent = `Com Insulfilm (${this.state.tintLevel})`;
+            if (this.ppfGlossOverlay) this.ppfGlossOverlay.style.display = 'none';
+        } else if (this.state.type === 'ppf') {
+            const ppfCarViews = this.ppfImageDB[this.state.ppfCar] || this.ppfImageDB['renault'];
+            const imgSrc = ppfCarViews[this.state.angle] || ppfCarViews['lateral'];
+
+            this.beforeImage.src = imgSrc;
+            this.beforeImage.alt = `Veículo PPF (${this.state.ppfCar}) sem PPF`;
+            this.beforeImage.style.filter = 'none';
+
+            this.afterImage.src = imgSrc;
+            this.afterImage.alt = `Veículo PPF (${this.state.ppfCar}) com PPF aplicado`;
+            this.afterImage.style.filter = 'brightness(1.05) contrast(1.10) saturate(1.08)';
+
+            if (this.tintOverlayLayer) {
+                this.tintOverlayLayer.style.display = 'none';
+            }
+
+            if (this.ppfGlossOverlay) {
+                this.ppfGlossOverlay.style.display = 'block';
+            }
+
+            if (this.beforeBadge) this.beforeBadge.textContent = 'ANTES: PINTURA ORIGINAL';
+            if (this.afterBadge) this.afterBadge.textContent = 'DEPOIS: COM PPF (BRILHO MOLHADO)';
         }
 
         this.resetSlider();
     }
 
     resetSlider() {
-        this.handle.style.left = '50%';
-        this.afterImage.style.clipPath = 'polygon(50% 0, 100% 0, 100% 100%, 50% 100%)';
+        if (this.handle) {
+            this.handle.style.left = '50%';
+        }
+        if (this.afterWrapper) {
+            this.afterWrapper.style.clipPath = 'inset(0 0 0 50%)';
+            this.afterWrapper.style.webkitClipPath = 'inset(0 0 0 50%)';
+        }
     }
-    
+
     handleMove(e) {
         if (!this.isDragging) return;
-        
+
         const rect = this.container.getBoundingClientRect();
-        let x;
-        
-        if (e.type === 'touchmove') {
-            x = e.touches[0].clientX - rect.left;
-        } else {
-            x = e.clientX - rect.left;
+        let clientX = e.clientX;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
         }
-        
-        const percentage = Math.max(0, Math.min(100, (x / rect.width) * 100));
-        
-        this.handle.style.left = `${percentage}%`;
-        this.afterImage.style.clipPath = `polygon(${percentage}% 0, 100% 0, 100% 100%, ${percentage}% 100%)`;
+
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percentage = (x / rect.width) * 100;
+
+        if (this.handle) {
+            this.handle.style.left = `${percentage}%`;
+        }
+
+        if (this.afterWrapper) {
+            this.afterWrapper.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+            this.afterWrapper.style.webkitClipPath = `inset(0 0 0 ${percentage}%)`;
+        }
     }
 }
+
+
 
 
 const comparisonSlider = new ComparisonSlider();

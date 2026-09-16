@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Insulfilm automotivo de qualidade premium. Proteção UV, cerâmica e durabilidade garantida.">
-    <title>Ultrafilm Marília</title>
+    <title>Ultrafilm Marília - Cópia novo</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -126,8 +126,8 @@
                 </div>
                 <div class="produto-card featured">
                     <div class="badge badge-premium">Lançamento</div>
-                    <img src="images/produtos/insu_ppf.png" alt="Película PPF" loading="lazy" style="object-fit: cover; height: 180px; width: 100%;">
-                <div class="produto-info">
+                    <img src="images/antes-depois/PPF/01l_visao_lateral.png" alt="Película PPF" loading="lazy">
+                    <div class="produto-info">
                         <h3>Película PPF</h3>
                         <p>Proteção transparente de alta resistência contra riscos e pedriscos</p>
                         <div class="produto-preco">A partir de <strong>R$ 1.499</strong></div>
@@ -135,7 +135,7 @@
                     </div>
                 </div>
                 <div class="produto-card">
-                    <img src="images/produtos/kit_insu.jpg" alt="Kit de Instalação de Insulfilm e PPF" loading="lazy">
+                    <img src="images/produtos/kit instalação.png" alt="Kit de Instalação de Insulfilm e PPF" loading="lazy">
                     <div class="produto-info">
                         <h3>Kit de Instalação (Insulfilm & PPF)</h3>
                         <p>NEWISHTOOL Kit de aplicação com borrifador, espátulas de feltro PPF e raspadores profissionais</p>
@@ -143,6 +143,7 @@
                         <button class="btn btn-secondary" data-modal="kit_instalacao">Ver Detalhes</button>
                     </div>
                 </div>
+            </div>
         </div>
     </section>
 
@@ -201,34 +202,172 @@
     <!-- Antes e Depois -->
     <section id="antes-depois" class="section antes-depois">
         <div class="container">
-            <h2 class="section-title">Antes e Depois</h2>
-            <p class="section-subtitle">Veja a diferença que o insulfilm faz</p>
-            <div class="comparison-controls" aria-label="Controles de comparativo">
-                <div class="comparison-type-selector" role="group" aria-label="Tipo de aplicação">
-                    <button class="comparison-btn comparison-type-btn active" data-comparison-type="carro" type="button">Carros</button>
-                    <button class="comparison-btn comparison-type-btn" data-comparison-type="casa" type="button">Casas</button>
+            <h2 class="section-title">Simulador Antes e Depois</h2>
+            <p class="section-subtitle">Veja como fica o seu carro ou projeto residencial com diferentes tonalidades de insulfilm</p>
+            
+            <div class="simulator-wrapper">
+                <!-- Top Row: Category Tabs & Vehicle Model Select -->
+                <div class="simulator-top-bar">
+                    <div class="comparison-type-selector" role="tablist" aria-label="Tipo de aplicação">
+                        <button class="comparison-type-btn active" data-comparison-type="automotivo" role="tab" aria-selected="true" type="button">
+                            <i class="fas fa-car"></i> Automotivo
+                        </button>
+                        <button class="comparison-type-btn" data-comparison-type="arquitetura" role="tab" aria-selected="false" type="button">
+                            <i class="fas fa-building"></i> Arquitetura
+                        </button>
+                        <button class="comparison-type-btn" data-comparison-type="ppf" role="tab" aria-selected="false" type="button">
+                            <i class="fas fa-shield-alt"></i> Película PPF
+                        </button>
+                    </div>
+
+                    <!-- Model Selector (Automotivo) -->
+                    <div class="car-model-selector" id="carModelSelector">
+                        <label for="carSelect"><i class="fas fa-car-side"></i> Modelo:</label>
+                        <select id="carSelect" class="car-select-dropdown">
+                            <option value="haval">Haval H6</option>
+                            <option value="jetta">Jetta GLI</option>
+                        </select>
+                    </div>
+
+                    <!-- Model Selector (Arquitetura) -->
+                    <div class="arch-model-selector" id="archModelSelector" style="display: none;">
+                        <label for="archSelect"><i class="fas fa-building"></i> Modelo:</label>
+                        <select id="archSelect" class="arch-select-dropdown">
+                            <option value="residencia1">Residência 1</option>
+                            <option value="residencia2">Residência 2</option>
+                            <option value="empresa1">Empresa 1</option>
+                            <option value="empresa2">Empresa 2</option>
+                        </select>
+                    </div>
+
+                    <!-- Model Selector (PPF) -->
+                    <div class="ppf-model-selector" id="ppfModelSelector" style="display: none;">
+                        <label for="ppfSelect"><i class="fas fa-car-side"></i> Veículo PPF:</label>
+                        <select id="ppfSelect" class="ppf-select-dropdown">
+                            <option value="renault">Renault SUV</option>
+                            <option value="spark">Chevrolet Spark EUV</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="comparison-visibility-selector" role="group" aria-label="Nível de visibilidade do insulfilm">
-                    <button class="comparison-btn comparison-level-btn active" data-comparison-level="G5" type="button">G5</button>
-                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G20" type="button">G20</button>
-                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G35" type="button">G35</button>
-                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G50" type="button">G50</button>
-                    <button class="comparison-btn comparison-level-btn" data-comparison-level="G70" type="button">G70</button>
+
+                <!-- Angle / View Selector Row (Visible for Automotivo & PPF) -->
+                <div class="angle-selector-row" id="angleSelectorRow">
+                    <button class="angle-btn active" data-angle="lateral" type="button">
+                        <i class="fas fa-car-side"></i> Lateral
+                    </button>
+                    <button class="angle-btn" data-angle="frente" type="button">
+                        <i class="fas fa-car"></i> Frontal
+                    </button>
+                    <button class="angle-btn" data-angle="traseira" type="button">
+                        <i class="fas fa-car"></i> Traseira
+                    </button>
+                    <button class="angle-btn" data-angle="interna" type="button">
+                        <i class="fas fa-user-tie"></i> Visão do Motorista
+                    </button>
                 </div>
-            </div>
-            <div class="comparison-slider">
-                <div class="comparison-container">
-                    <img src="images/antes-depois/vermelho.jpg" alt="Veículo sem insulfilm" class="comparison-before" loading="lazy">
-                    <img src="images/antes-depois/vermelho_g5.jpg" alt="Veículo com insulfilm" class="comparison-after" loading="lazy">
-                    <div class="comparison-slider-handle">
-                        <div class="slider-button">
-                            <i class="fas fa-arrows-alt-h"></i>
+
+                <!-- Comparison Slider Viewport -->
+                <div class="comparison-slider">
+                    <div class="comparison-container" id="comparisonContainer">
+                        <img src="images/antes-depois/carros/01_haval_visao_lateral.jfif" alt="Antes sem insulfilm" class="comparison-before" id="imgBefore" loading="eager">
+
+                        <div class="comparison-after-wrapper" id="afterWrapper">
+                            <img src="images/antes-depois/carros/01_haval_visao_lateral.jfif" alt="Depois com insulfilm" class="comparison-after" id="imgAfter" loading="eager">
+                            <div class="tint-overlay-layer" id="tintOverlayLayer"></div>
+                            <div class="ppf-gloss-overlay" id="ppfGlossOverlay"></div>
+                        </div>
+
+                        <div class="comparison-badge badge-before">Sem Insulfilm</div>
+                        <div class="comparison-badge badge-after" id="comparisonAfterBadge">Com Insulfilm (G70)</div>
+                        
+                        <div class="comparison-slider-handle" id="sliderHandle">
+                            <div class="slider-button">
+                                <i class="fas fa-arrows-alt-h"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="comparison-labels">
-                    <span class="label-before">Antes</span>
-                    <span class="label-after" id="comparisonAfterLabel">Depois - G5 (5% visibilidade)</span>
+
+                <!-- Tint Cards Grid -->
+                <div class="tint-selector-section">
+                    <h3 class="tint-selector-title">Escolha a tonalidade do seu insulfilm</h3>
+                    <div class="tint-cards-grid" role="group" aria-label="Níveis de tonalidade">
+                        <button class="tint-card active" data-comparison-level="G70" data-rgba="rgba(0,0,0,0.3)" type="button">
+                            <div class="tint-swatch tint-g70">
+                                <span class="swatch-label">G70</span>
+                            </div>
+                            <div class="tint-details">
+                                <span class="tint-name">G70</span>
+                                <span class="tint-desc">MAIS CLARO (70%)</span>
+                            </div>
+                        </button>
+                        <button class="tint-card" data-comparison-level="G50" data-rgba="rgba(0,0,0,0.5)" type="button">
+                            <div class="tint-swatch tint-g50">
+                                <span class="swatch-label">G50</span>
+                            </div>
+                            <div class="tint-details">
+                                <span class="tint-name">G50</span>
+                                <span class="tint-desc">FILTRO DISCRETO</span>
+                            </div>
+                        </button>
+                        <button class="tint-card" data-comparison-level="G35" data-rgba="rgba(0,0,0,0.65)" type="button">
+                            <div class="tint-swatch tint-g35">
+                                <span class="swatch-label">G35</span>
+                            </div>
+                            <div class="tint-details">
+                                <span class="tint-name">G35</span>
+                                <span class="tint-desc">BLOQUEIO INTERMEDIÁRIO</span>
+                            </div>
+                        </button>
+                        <button class="tint-card" data-comparison-level="G20" data-rgba="rgba(0,0,0,0.8)" type="button">
+                            <div class="tint-swatch tint-g20">
+                                <span class="swatch-label">G20</span>
+                            </div>
+                            <div class="tint-details">
+                                <span class="tint-name">G20</span>
+                                <span class="tint-desc">ALTO BLOQUEIO TÉRMICO</span>
+                            </div>
+                        </button>
+                        <button class="tint-card" data-comparison-level="G5" data-rgba="rgba(0,0,0,0.93)" type="button">
+                            <div class="tint-swatch tint-g5">
+                                <span class="swatch-label">G5</span>
+                            </div>
+                            <div class="tint-details">
+                                <span class="tint-name">G5</span>
+                                <span class="tint-desc">MÁXIMO BLOQUEIO / PRIVACIDADE</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PPF Highlights Section (Visible when PPF tab is active) -->
+                <div class="ppf-info-section" id="ppfInfoSection" style="display: none;">
+                    <h3 class="ppf-info-title">O Destaque do PPF no Carro Inteiro</h3>
+                    <div class="ppf-features-grid">
+                        <div class="ppf-feature-card">
+                            <div class="ppf-feature-icon"><i class="fas fa-shield-alt"></i></div>
+                            <h4>Proteção Antirriscos</h4>
+                            <p>Escudo transparente contra pedriscos, chaves e pequenos impactos na pintura original.</p>
+                        </div>
+                        <div class="ppf-feature-card">
+                            <div class="ppf-feature-icon"><i class="fas fa-gem"></i></div>
+                            <h4>Brilho Espelhado Showroom</h4>
+                            <p>Proporciona profundidade, nitidez e acabamento de carro zero quilômetro.</p>
+                        </div>
+                        <div class="ppf-feature-card">
+                            <div class="ppf-feature-icon"><i class="fas fa-magic"></i></div>
+                            <h4>Self-Healing (Regeneração)</h4>
+                            <p>Micro-arranhões somem sozinhos com a simples exposição ao calor do sol.</p>
+                        </div>
+                        <div class="ppf-feature-card">
+                            <div class="ppf-feature-icon"><i class="fas fa-tint-slash"></i></div>
+                            <h4>Ultra Hidrofobia</h4>
+                            <p>Repele água, dejetos e sujeiras urbanas, facilitando a lavagem diária.</p>
+                        </div>
+                    </div>
+                    <div class="ppf-footer-banner">
+                        <p><i class="fas fa-star"></i> VEJA COMO O PPF TRAZ PROFUNDIDADE, BRILHO ESPELHADO E UM ACABAMENTO DE SHOWROOM À PINTURA ORIGINAL.</p>
+                    </div>
                 </div>
             </div>
         </div>
