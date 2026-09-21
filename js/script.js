@@ -431,11 +431,11 @@ class ComparisonSlider {
             },
             'empresa1': {
                 'Original': 'images/antes-depois/arquitetura/empresa_1.jpeg',
-                'G70': 'images/antes-depois/arquitetura/Empresa_1 G50.jfif',
+                'G70': 'images/antes-depois/arquitetura/Empresa_1 G70.jfif',
                 'G50': 'images/antes-depois/arquitetura/Empresa_1 G50.jfif',
                 'G35': 'images/antes-depois/arquitetura/empresa_1 G35.jfif',
                 'G20': 'images/antes-depois/arquitetura/Empresa_1 G20.jfif',
-                'G5':  'images/antes-depois/arquitetura/Empresa_1 G20.jfif'
+                'G5':  'images/antes-depois/arquitetura/Empresa_1 G5.jfif'
             },
             'empresa2': {
                 'Original': 'images/antes-depois/arquitetura/empresa_2.jfif',
@@ -461,9 +461,9 @@ class ComparisonSlider {
                 'traseira': 'images/antes-depois/PPF/03_visao_traseira.png'
             },
             'spark': {
-                'lateral':  'images/antes-depois/PPF/01l_visao_lateral.png',
-                'frente':   'images/antes-depois/PPF/02_Chevrolet Spark EUV_visao_frontal.png',
-                'traseira': 'images/antes-depois/PPF/03_visao_traseira.png'
+                'lateral':  'images/antes-depois/PPF/01_spark_visao_lateral.png',
+                'frente':   'images/antes-depois/PPF/02_spark_visao_frontal.png',
+                'traseira': 'images/antes-depois/PPF/03_spark_visao_traseira.png'
             }
         };
 
