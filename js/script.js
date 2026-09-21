@@ -248,16 +248,33 @@ document.querySelectorAll('[data-modal]').forEach(button => {
                 <div style="margin-top: 25px; font-size: 1.5rem; color: var(--primary-color); font-weight: bold;">
                     A partir de ${produto.preco}
                 </div>
-                <a href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre o ${produto.titulo}" 
-                   class="btn btn-primary" 
-                   target="_blank" 
-                   rel="noopener"
-                   style="margin-top: 25px; width: 100%; justify-content: center;">
-                    <i class="fab fa-whatsapp"></i> Solicitar Orçamento
-                </a>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
+                    <a href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre o ${produto.titulo}" 
+                       class="btn btn-primary" 
+                       target="_blank" 
+                       rel="noopener"
+                       style="width: 100%; justify-content: center;">
+                        <i class="fab fa-whatsapp"></i> Solicitar Orçamento
+                    </a>
+                    <button type="button" 
+                            class="btn btn-secondary btn-modal-zoom-trigger" 
+                            style="width: 100%; justify-content: center; gap: 8px;">
+                        <i class="fas fa-search-plus"></i> Ampliar / Ver em Zoom 2D
+                    </button>
+                </div>
             `;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
+
+            const modalZoomBtn = modalBody.querySelector('.btn-modal-zoom-trigger');
+            if (modalZoomBtn) {
+                modalZoomBtn.addEventListener('click', () => {
+                    modal.classList.remove('active');
+                    if (window.interactiveZoomModal) {
+                        window.interactiveZoomModal.open();
+                    }
+                });
+            }
         }
     });
 });
@@ -320,7 +337,7 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/01_haval_visao_lateral G5.jfif'
                 },
                 'frente': {
-                    'Original': 'images/antes-depois/carros/02_haval_visao_frontal.png',
+                    'Original': 'images/antes-depois/carros/01_haval_visao_frontal.jfif',
                     'G70': 'images/antes-depois/carros/01_haval_visao_frontal G70.jfif',
                     'G50': 'images/antes-depois/carros/01_haval_visao_frontal G50.jfif',
                     'G35': 'images/antes-depois/carros/01_haval_visao_frontal G35.jfif',
@@ -328,7 +345,7 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/01_haval_visao_frontal G5.jfif'
                 },
                 'traseira': {
-                    'Original': 'images/antes-depois/carros/03_haval_visao_traseira.png',
+                    'Original': 'images/antes-depois/carros/01_haval_visao_traseira.jfif',
                     'G70': 'images/antes-depois/carros/01_haval_visao_traseira G70.jfif',
                     'G50': 'images/antes-depois/carros/01_haval_visao_traseira G50.jfif',
                     'G35': 'images/antes-depois/carros/01_haval_visao_traseira G35.jfif',
@@ -336,11 +353,11 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/01_haval_visao_traseira G5.jfif'
                 },
                 'interna': {
-                    'Original': 'images/antes-depois/carros/visão motorista sem isulfilme.jfif',
-                    'G70': 'images/antes-depois/carros/visão motorista  HAVAL G70.png',
-                    'G50': 'images/antes-depois/carros/visão motorista  HAVAL G50.jfif',
-                    'G35': 'images/antes-depois/carros/visão motorista  HAVAL G35.jfif',
-                    'G20': 'images/antes-depois/carros/visão motorista HAVAL G20.jfif',
+                    'Original': 'images/antes-depois/carros/visão motorista HAVAL.jpeg',
+                    'G70': 'images/antes-depois/carros/visão motorista HAVAL G70.jpeg',
+                    'G50': 'images/antes-depois/carros/visão motorista HAVAL G50.png',
+                    'G35': 'images/antes-depois/carros/visão motorista HAVAL G35.jpeg',
+                    'G20': 'images/antes-depois/carros/visão motorista HAVAL G20.jpeg',
                     'G5':  'images/antes-depois/carros/visão motorista HAVAL G5.jfif'
                 }
             },
@@ -354,28 +371,28 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/05_jetta_visao_lateral G5.jfif'
                 },
                 'frente': {
-                    'Original': 'images/antes-depois/carros/06_jetta_visao_frontal.png',
-                    'G70': 'images/antes-depois/carros/G70 frontal.jfif',
-                    'G50': 'images/antes-depois/carros/G50 frontal.jfif',
-                    'G35': 'images/antes-depois/carros/G35 frontal.jfif',
-                    'G20': 'images/antes-depois/carros/G20 frontal.jfif',
-                    'G5':  'images/antes-depois/carros/G5 frontal.jfif'
+                    'Original': 'images/antes-depois/carros/06_jetta_visao_frontal.jfif',
+                    'G70': 'images/antes-depois/carros/06_jetta_visao_frontal G70.jfif',
+                    'G50': 'images/antes-depois/carros/06_jetta_visao_frontal G50.jfif',
+                    'G35': 'images/antes-depois/carros/06_jetta_visao_frontal G35.jfif',
+                    'G20': 'images/antes-depois/carros/06_jetta_visao_frontal G20.jfif',
+                    'G5':  'images/antes-depois/carros/06_jetta_visao_frontal G5.jfif'
                 },
                 'traseira': {
-                    'Original': 'images/antes-depois/carros/07_jetta_visao_traseira.png',
-                    'G70': 'images/antes-depois/carros/G70 traseira.jfif',
-                    'G50': 'images/antes-depois/carros/g50 traseira.jfif',
-                    'G35': 'images/antes-depois/carros/g50 traseira.jfif',
-                    'G20': 'images/antes-depois/carros/G5 traseira.jfif',
-                    'G5':  'images/antes-depois/carros/G5 traseira.jfif'
+                    'Original': 'images/antes-depois/carros/07_jetta_visaotraseiral sem filme.jfif',
+                    'G70': 'images/antes-depois/carros/07_jetta_visaotraseiral G70.jfif',
+                    'G50': 'images/antes-depois/carros/07_jetta_visaotraseiral G50.jfif',
+                    'G35': 'images/antes-depois/carros/07_jetta_visaotraseiral G35.jfif',
+                    'G20': 'images/antes-depois/carros/07_jetta_visaotraseiral G20.jfif',
+                    'G5':  'images/antes-depois/carros/07_jetta_visaotraseiral  G5.jfif'
                 },
                 'interna': {
                     'Original': 'images/antes-depois/carros/08_jetta_visao_motorista.jfif',
-                    'G70': 'images/antes-depois/carros/08_jetta_visao_motorista G70.jfif',
-                    'G50': 'images/antes-depois/carros/08_jetta_visao_motorista G50.jfif',
-                    'G35': 'images/antes-depois/carros/08_jetta_visao_motorista G35.jfif',
-                    'G20': 'images/antes-depois/carros/08_jetta_visao_motorista G20.jfif',
-                    'G5':  'images/antes-depois/carros/08_jetta_visao_motorista G5.jfif'
+                    'G70': 'images/antes-depois/carros/08_jetta_visao_motorista G70.jpeg',
+                    'G50': 'images/antes-depois/carros/08_jetta_visao_motorista G50.jpeg',
+                    'G35': 'images/antes-depois/carros/08_jetta_visao_motorista G35.jpeg',
+                    'G20': 'images/antes-depois/carros/08_jetta_visao_motorista G20.jpeg',
+                    'G5':  'images/antes-depois/carros/08_jetta_visao_motorista G5.jpeg'
                 }
             }
         };
@@ -683,7 +700,7 @@ class ComparisonSlider {
 
             this.afterImage.src = imgSrc;
             this.afterImage.alt = `Veículo PPF (${this.state.ppfCar}) com PPF aplicado`;
-            this.afterImage.style.filter = 'brightness(1.05) contrast(1.10) saturate(1.08)';
+            this.afterImage.style.filter = 'brightness(1.06) contrast(1.08)';
 
             if (this.tintOverlayLayer) {
                 this.tintOverlayLayer.style.display = 'none';
@@ -698,6 +715,9 @@ class ComparisonSlider {
         }
 
         this.resetSlider();
+        if (window.interactiveZoomModal && window.interactiveZoomModal.isOpen) {
+            window.interactiveZoomModal.syncView();
+        }
     }
 
     resetSlider() {
@@ -739,6 +759,350 @@ class ComparisonSlider {
 
 
 const comparisonSlider = new ComparisonSlider();
+
+
+class InteractiveZoomModal {
+    constructor(comparisonSlider) {
+        this.slider = comparisonSlider;
+        this.modal = document.getElementById('zoomModal');
+        this.triggerBtn = document.getElementById('zoomTriggerBtn');
+        this.closeBtn = document.getElementById('zoomCloseBtn');
+        this.headerCloseBtn = document.getElementById('zoomHeaderCloseBtn');
+        this.viewport = document.getElementById('zoomModalViewport');
+        this.stageWrapper = document.getElementById('zoomStageWrapper');
+        this.zoomContainer = document.getElementById('zoomComparisonContainer');
+        this.zoomImgBefore = document.getElementById('zoomImgBefore');
+        this.zoomImgAfter = document.getElementById('zoomImgAfter');
+        this.zoomAfterWrapper = document.getElementById('zoomAfterWrapper');
+        this.zoomTintOverlayLayer = document.getElementById('zoomTintOverlayLayer');
+        this.zoomPpfGlossOverlay = document.getElementById('zoomPpfGlossOverlay');
+        this.zoomAfterBadge = document.getElementById('zoomComparisonAfterBadge');
+        this.zoomSliderHandle = document.getElementById('zoomSliderHandle');
+
+        this.zoomInBtn = document.getElementById('zoomInBtn');
+        this.zoomOutBtn = document.getElementById('zoomOutBtn');
+        this.zoomResetBtn = document.getElementById('zoomResetBtn');
+
+        this.zoomTintPills = document.querySelectorAll('.zoom-tint-pill');
+        this.zoomAnglePills = document.querySelectorAll('.zoom-angle-pill');
+        this.zoomTypePills = document.querySelectorAll('.zoom-type-pill');
+        this.zoomCarSelect = document.getElementById('zoomCarSelect');
+        this.zoomArchSelect = document.getElementById('zoomArchSelect');
+        this.zoomPpfSelect = document.getElementById('zoomPpfSelect');
+        this.zoomSideTintRail = document.getElementById('zoomSideTintRail');
+
+        this.isOpen = false;
+        this.scale = 1.8;
+        this.panX = 0;
+        this.panY = 0;
+        this.isPanning = false;
+        this.startPanX = 0;
+        this.startPanY = 0;
+        this.isSliderDragging = false;
+
+        if (this.modal && this.triggerBtn) {
+            this.init();
+        }
+    }
+
+    init() {
+        this.triggerBtn.addEventListener('click', () => this.open());
+        if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.close());
+        if (this.headerCloseBtn) this.headerCloseBtn.addEventListener('click', () => this.close());
+
+        if (this.zoomInBtn) this.zoomInBtn.addEventListener('click', () => this.zoomIn());
+        if (this.zoomOutBtn) this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
+        if (this.zoomResetBtn) this.zoomResetBtn.addEventListener('click', () => this.resetPan());
+
+        // Model Dropdowns inside Zoom Toolbar
+        if (this.zoomCarSelect) {
+            this.zoomCarSelect.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (!this.slider) return;
+                this.slider.state.car = val;
+                if (this.slider.carSelect) this.slider.carSelect.value = val;
+                this.slider.updateView();
+            });
+        }
+
+        if (this.zoomArchSelect) {
+            this.zoomArchSelect.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (!this.slider) return;
+                this.slider.state.arch = val;
+                if (this.slider.archSelect) this.slider.archSelect.value = val;
+                this.slider.updateView();
+            });
+        }
+
+        if (this.zoomPpfSelect) {
+            this.zoomPpfSelect.addEventListener('change', (e) => {
+                const val = e.target.value;
+                if (!this.slider) return;
+                this.slider.state.ppfCar = val;
+                if (this.slider.ppfSelect) this.slider.ppfSelect.value = val;
+                this.slider.updateView();
+            });
+        }
+
+        // Floating Tint Pills Click inside Zoom Modal
+        this.zoomTintPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                const tintLevel = pill.getAttribute('data-zoom-tint');
+                if (!tintLevel || !this.slider) return;
+
+                const rgbaMap = {
+                    'G70': 'rgba(0,0,0,0.3)',
+                    'G50': 'rgba(0,0,0,0.5)',
+                    'G35': 'rgba(0,0,0,0.65)',
+                    'G20': 'rgba(0,0,0,0.8)',
+                    'G5':  'rgba(0,0,0,0.95)'
+                };
+
+                this.slider.state.tintLevel = tintLevel;
+                this.slider.state.tintRgba = rgbaMap[tintLevel] || 'rgba(0,0,0,0.5)';
+
+                if (this.slider.tintCards) {
+                    this.slider.tintCards.forEach(c => {
+                        c.classList.toggle('active', c.getAttribute('data-comparison-level') === tintLevel);
+                    });
+                }
+
+                this.slider.updateView();
+            });
+        });
+
+        // Floating Angle Pills Click inside Zoom Modal
+        this.zoomAnglePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                const angle = pill.getAttribute('data-zoom-angle');
+                if (!angle || !this.slider) return;
+
+                this.slider.state.angle = angle;
+                if (this.slider.angleButtons) {
+                    this.slider.angleButtons.forEach(b => {
+                        b.classList.toggle('active', b.getAttribute('data-angle') === angle);
+                    });
+                }
+
+                this.slider.updateView();
+            });
+        });
+
+        // Floating Type Pills Click inside Zoom Modal
+        this.zoomTypePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                const type = pill.getAttribute('data-zoom-type');
+                if (!type || !this.slider) return;
+
+                const matchedTypeBtn = Array.from(this.slider.typeButtons || []).find(b => b.getAttribute('data-comparison-type') === type);
+                if (matchedTypeBtn) {
+                    matchedTypeBtn.click();
+                } else {
+                    this.slider.state.type = type;
+                    this.slider.updateView();
+                }
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen) {
+                this.close();
+            }
+        });
+
+        if (this.viewport) {
+            this.viewport.addEventListener('wheel', (e) => {
+                if (!this.isOpen) return;
+                e.preventDefault();
+                if (e.deltaY < 0) {
+                    this.zoomIn();
+                } else {
+                    this.zoomOut();
+                }
+            }, { passive: false });
+
+            const startDrag = (e) => {
+                if (!this.isOpen) return;
+                const isHandle = e.target.closest('#zoomSliderHandle');
+                const isToolbar = e.target.closest('#zoomTopToolbar') || e.target.closest('#zoomSideTintRail');
+                if (isToolbar) return;
+
+                if (isHandle) {
+                    this.isSliderDragging = true;
+                    this.handleSliderMove(e);
+                } else {
+                    this.isPanning = true;
+                    this.viewport.classList.add('grabbing');
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    this.startPanX = clientX - this.panX;
+                    this.startPanY = clientY - this.startPanY;
+                }
+            };
+
+            const onMove = (e) => {
+                if (!this.isOpen) return;
+                if (this.isSliderDragging) {
+                    this.handleSliderMove(e);
+                } else if (this.isPanning) {
+                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                    this.panX = clientX - this.startPanX;
+                    this.panY = clientY - this.startPanY;
+                    this.updateTransform();
+                }
+            };
+
+            const stopDrag = () => {
+                this.isPanning = false;
+                this.isSliderDragging = false;
+                if (this.viewport) this.viewport.classList.remove('grabbing');
+            };
+
+            this.viewport.addEventListener('mousedown', startDrag);
+            this.viewport.addEventListener('touchstart', startDrag, { passive: true });
+
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('touchmove', onMove, { passive: true });
+
+            document.addEventListener('mouseup', stopDrag);
+            document.addEventListener('touchend', stopDrag);
+        }
+    }
+
+    open() {
+        this.isOpen = true;
+        this.syncView();
+        this.resetPan();
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    close() {
+        this.isOpen = false;
+        this.modal.classList.remove('active');
+        document.body.style.overflow = 'auto';
+    }
+
+    syncView() {
+        if (!this.slider) return;
+
+        if (this.zoomImgBefore && this.slider.beforeImage) {
+            this.zoomImgBefore.src = this.slider.beforeImage.src;
+        }
+
+        if (this.zoomImgAfter && this.slider.afterImage) {
+            this.zoomImgAfter.src = this.slider.afterImage.src;
+            this.zoomImgAfter.style.filter = this.slider.afterImage.style.filter || 'none';
+        }
+
+        if (this.zoomTintOverlayLayer && this.slider.tintOverlayLayer) {
+            this.zoomTintOverlayLayer.style.display = this.slider.tintOverlayLayer.style.display;
+            this.zoomTintOverlayLayer.style.backgroundColor = this.slider.tintOverlayLayer.style.backgroundColor;
+            this.zoomTintOverlayLayer.style.clipPath = this.slider.tintOverlayLayer.style.clipPath;
+        }
+
+        if (this.zoomPpfGlossOverlay && this.slider.ppfGlossOverlay) {
+            this.zoomPpfGlossOverlay.style.display = this.slider.ppfGlossOverlay.style.display;
+        }
+
+        if (this.zoomAfterBadge && this.slider.afterBadge) {
+            this.zoomAfterBadge.textContent = this.slider.afterBadge.textContent;
+        }
+
+        if (this.slider.handle && this.zoomSliderHandle && this.zoomAfterWrapper) {
+            const leftPos = this.slider.handle.style.left || '50%';
+            this.zoomSliderHandle.style.left = leftPos;
+            this.zoomAfterWrapper.style.clipPath = `inset(0 0 0 ${leftPos})`;
+            this.zoomAfterWrapper.style.webkitClipPath = `inset(0 0 0 ${leftPos})`;
+        }
+
+        // Sync Floating Toolbar Pills & Dropdowns Active States
+        const currentType = this.slider.state.type;
+        const currentTint = this.slider.state.tintLevel;
+        const currentAngle = this.slider.state.angle;
+
+        if (this.zoomCarSelect) {
+            this.zoomCarSelect.value = this.slider.state.car;
+            this.zoomCarSelect.style.display = (currentType === 'automotivo') ? 'inline-block' : 'none';
+        }
+
+        if (this.zoomArchSelect) {
+            this.zoomArchSelect.value = this.slider.state.arch;
+            this.zoomArchSelect.style.display = (currentType === 'arquitetura') ? 'inline-block' : 'none';
+        }
+
+        if (this.zoomPpfSelect) {
+            this.zoomPpfSelect.value = this.slider.state.ppfCar;
+            this.zoomPpfSelect.style.display = (currentType === 'ppf') ? 'inline-block' : 'none';
+        }
+
+        if (this.zoomSideTintRail) {
+            this.zoomSideTintRail.style.display = (currentType === 'ppf') ? 'none' : 'flex';
+        }
+
+        this.zoomTintPills.forEach(p => {
+            p.classList.toggle('active', p.getAttribute('data-zoom-tint') === currentTint);
+        });
+
+        this.zoomAnglePills.forEach(p => {
+            const pillAngle = p.getAttribute('data-zoom-angle');
+            p.classList.toggle('active', pillAngle === currentAngle);
+            if (currentType === 'ppf' && pillAngle === 'interna') {
+                p.style.display = 'none';
+            } else {
+                p.style.display = 'inline-flex';
+            }
+        });
+
+        this.zoomTypePills.forEach(p => {
+            p.classList.toggle('active', p.getAttribute('data-zoom-type') === currentType);
+        });
+    }
+
+    zoomIn() {
+        this.scale = Math.min(this.scale + 0.35, 3.5);
+        this.updateTransform();
+    }
+
+    zoomOut() {
+        this.scale = Math.max(this.scale - 0.35, 1.0);
+        this.updateTransform();
+    }
+
+    resetPan() {
+        this.scale = 1.8;
+        this.panX = 0;
+        this.panY = 0;
+        this.updateTransform();
+    }
+
+    updateTransform() {
+        if (this.stageWrapper) {
+            this.stageWrapper.style.transform = `translate(${this.panX}px, ${this.panY}px) scale(${this.scale})`;
+        }
+    }
+
+    handleSliderMove(e) {
+        if (!this.zoomContainer || !this.zoomSliderHandle || !this.zoomAfterWrapper) return;
+        const rect = this.zoomContainer.getBoundingClientRect();
+        let clientX = e.clientX;
+        if (e.touches && e.touches.length > 0) {
+            clientX = e.touches[0].clientX;
+        }
+
+        let x = clientX - rect.left;
+        x = Math.max(0, Math.min(x, rect.width));
+
+        const percentage = (x / rect.width) * 100;
+        this.zoomSliderHandle.style.left = `${percentage}%`;
+        this.zoomAfterWrapper.style.clipPath = `inset(0 0 0 ${percentage}%)`;
+        this.zoomAfterWrapper.style.webkitClipPath = `inset(0 0 0 ${percentage}%)`;
+    }
+}
+
+window.interactiveZoomModal = new InteractiveZoomModal(comparisonSlider);
 
 
 class DepoimentosCarousel {
