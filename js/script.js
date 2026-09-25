@@ -624,6 +624,16 @@ class ComparisonSlider {
         });
     }
 
+    setImageSource(image, source, fallbackSource = '') {
+        if (!image) return;
+
+        image.onerror = () => {
+            image.onerror = null;
+            if (fallbackSource) image.src = fallbackSource;
+        };
+        image.src = source;
+    }
+
     updateView() {
         if (this.state.type === 'automotivo') {
             const carViews = this.imageDB[this.state.car] || this.imageDB['haval'];
@@ -636,11 +646,11 @@ class ComparisonSlider {
                 afterSrc = angleObj[this.state.tintLevel] || angleObj['G70'] || beforeSrc;
             }
 
-            this.beforeImage.src = beforeSrc;
+            this.setImageSource(this.beforeImage, beforeSrc);
             this.beforeImage.alt = `Veículo ${this.state.car} (${this.state.angle}) sem insulfilm`;
             this.beforeImage.style.filter = 'none';
 
-            this.afterImage.src = afterSrc;
+            this.setImageSource(this.afterImage, afterSrc, beforeSrc);
             this.afterImage.alt = `Veículo ${this.state.car} (${this.state.angle}) com insulfilm ${this.state.tintLevel}`;
 
             if (this.tintOverlayLayer) {
@@ -669,11 +679,11 @@ class ComparisonSlider {
                 afterSrc = archObj[this.state.tintLevel] || archObj['G70'] || beforeSrc;
             }
 
-            this.beforeImage.src = beforeSrc;
+            this.setImageSource(this.beforeImage, beforeSrc);
             this.beforeImage.alt = `Projeto Arquitetura (${archKey}) sem insulfilm`;
             this.beforeImage.style.filter = 'none';
 
-            this.afterImage.src = afterSrc;
+            this.setImageSource(this.afterImage, afterSrc, beforeSrc);
             this.afterImage.alt = `Projeto Arquitetura (${archKey}) com insulfilm ${this.state.tintLevel}`;
 
             if (this.tintOverlayLayer) {
@@ -694,11 +704,11 @@ class ComparisonSlider {
             const ppfCarViews = this.ppfImageDB[this.state.ppfCar] || this.ppfImageDB['renault'];
             const imgSrc = ppfCarViews[this.state.angle] || ppfCarViews['lateral'];
 
-            this.beforeImage.src = imgSrc;
+            this.setImageSource(this.beforeImage, imgSrc);
             this.beforeImage.alt = `Veículo PPF (${this.state.ppfCar}) sem PPF`;
             this.beforeImage.style.filter = 'none';
 
-            this.afterImage.src = imgSrc;
+            this.setImageSource(this.afterImage, imgSrc);
             this.afterImage.alt = `Veículo PPF (${this.state.ppfCar}) com PPF aplicado`;
             this.afterImage.style.filter = 'brightness(1.06) contrast(1.08)';
 
@@ -795,9 +805,6 @@ class InteractiveZoomModal {
         this.scale = 1.8;
         this.panX = 0;
         this.panY = 0;
-        this.isPanning = false;
-        this.startPanX = 0;
-        this.startPanY = 0;
         this.isSliderDragging = false;
 
         if (this.modal && this.triggerBtn) {
@@ -926,38 +933,21 @@ class InteractiveZoomModal {
                 if (!this.isOpen) return;
                 const isHandle = e.target.closest('#zoomSliderHandle');
                 const isToolbar = e.target.closest('#zoomTopToolbar') || e.target.closest('#zoomSideTintRail');
-                if (isToolbar) return;
+                if (isToolbar || !isHandle) return;
 
-                if (isHandle) {
-                    this.isSliderDragging = true;
-                    this.handleSliderMove(e);
-                } else {
-                    this.isPanning = true;
-                    this.viewport.classList.add('grabbing');
-                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                    this.startPanX = clientX - this.panX;
-                    this.startPanY = clientY - this.startPanY;
-                }
+                this.isSliderDragging = true;
+                this.handleSliderMove(e);
             };
 
             const onMove = (e) => {
                 if (!this.isOpen) return;
                 if (this.isSliderDragging) {
                     this.handleSliderMove(e);
-                } else if (this.isPanning) {
-                    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                    this.panX = clientX - this.startPanX;
-                    this.panY = clientY - this.startPanY;
-                    this.updateTransform();
                 }
             };
 
             const stopDrag = () => {
-                this.isPanning = false;
                 this.isSliderDragging = false;
-                if (this.viewport) this.viewport.classList.remove('grabbing');
             };
 
             this.viewport.addEventListener('mousedown', startDrag);
@@ -993,6 +983,10 @@ class InteractiveZoomModal {
         }
 
         if (this.zoomImgAfter && this.slider.afterImage) {
+            this.zoomImgAfter.onerror = () => {
+                this.zoomImgAfter.onerror = null;
+                if (this.zoomImgBefore) this.zoomImgAfter.src = this.zoomImgBefore.src;
+            };
             this.zoomImgAfter.src = this.slider.afterImage.src;
             this.zoomImgAfter.style.filter = this.slider.afterImage.style.filter || 'none';
         }

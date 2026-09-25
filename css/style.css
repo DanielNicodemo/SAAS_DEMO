@@ -2028,15 +2028,11 @@ img[loading="lazy"].loaded {
     flex: 1;
     position: relative;
     overflow: hidden;
-    cursor: grab;
+    cursor: default;
     touch-action: none;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.zoom-modal-viewport.grabbing {
-    cursor: grabbing;
 }
 
 .zoom-stage-wrapper {
