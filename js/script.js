@@ -157,8 +157,7 @@ const produtosInfo = {
             'Instalação profissional incluída',
             'Tonalidades: 5%, 20%, 35%, 50%',
             'Ideal para uso diário'
-        ],
-        preco: 'R$ 299'
+        ]
     },
     ceramico: {
         titulo: 'Insulfilm Cerâmico',
@@ -171,8 +170,7 @@ const produtosInfo = {
             'Não interfere em sinais eletrônicos',
             'Alta durabilidade e resistência',
             'Tonalidades: 5%, 20%, 35%, 50%, 70%'
-        ],
-        preco: 'R$ 599'
+        ]
     },
     premium: {
         titulo: 'Insulfilm Premium',
@@ -186,8 +184,7 @@ const produtosInfo = {
             'Resistência superior a impactos',
             'Acabamento premium',
             'Instalação VIP'
-        ],
-        preco: 'R$ 899'
+        ]
     },
     antiestilhaco: {
         titulo: 'Insulfilm Antiestilhaço',
@@ -200,8 +197,7 @@ const produtosInfo = {
             'Garantia de 3 anos',
             'Certificação de segurança',
             'Ideal para segurança patrimonial'
-        ],
-        preco: 'R$ 799'
+        ]
     },
     ppf: {
         titulo: 'Película PPF (Paint Protection Film)',
@@ -213,8 +209,7 @@ const produtosInfo = {
             'Efeito hidrofóbico (repulsão de água e sujeira)',
             'Garantia de até 10 anos contra amarelamento',
             'Preserva a pintura original e o valor de revenda'
-        ],
-        preco: 'R$ 1.499'
+        ]
     },
     kit_instalacao: {
         titulo: 'Kit de Instalação de Insulfilm e PPF',
@@ -226,8 +221,7 @@ const produtosInfo = {
             'Ferramenta de instalação de película protetora de vidro',
             'Kit completo para envoltório de vinil e tingimento',
             'Ferramentas de alta precisão para aplicação perfeita'
-        ],
-        preco: 'R$ 149'
+        ]
     }
 };
 
@@ -245,9 +239,6 @@ document.querySelectorAll('[data-modal]').forEach(button => {
                 <ul>
                     ${produto.caracteristicas.map(item => `<li>${item}</li>`).join('')}
                 </ul>
-                <div style="margin-top: 25px; font-size: 1.5rem; color: var(--primary-color); font-weight: bold;">
-                    A partir de ${produto.preco}
-                </div>
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
                     <a href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre o ${produto.titulo}" 
                        class="btn btn-primary" 
@@ -256,25 +247,10 @@ document.querySelectorAll('[data-modal]').forEach(button => {
                        style="width: 100%; justify-content: center;">
                         <i class="fab fa-whatsapp"></i> Solicitar Orçamento
                     </a>
-                    <button type="button" 
-                            class="btn btn-secondary btn-modal-zoom-trigger" 
-                            style="width: 100%; justify-content: center; gap: 8px;">
-                        <i class="fas fa-search-plus"></i> Ampliar / Ver em Zoom 2D
-                    </button>
                 </div>
             `;
             modal.classList.add('active');
             document.body.style.overflow = 'hidden';
-
-            const modalZoomBtn = modalBody.querySelector('.btn-modal-zoom-trigger');
-            if (modalZoomBtn) {
-                modalZoomBtn.addEventListener('click', () => {
-                    modal.classList.remove('active');
-                    if (window.interactiveZoomModal) {
-                        window.interactiveZoomModal.open();
-                    }
-                });
-            }
         }
     });
 });
@@ -338,7 +314,7 @@ class ComparisonSlider {
                 },
                 'frente': {
                     'Original': 'images/antes-depois/carros/01_haval_visao_frontal.jfif',
-                    'G70': 'images/antes-depois/carros/01_haval_visao_frontal G70.jfif',
+                    'G70': 'images/antes-depois/carros/haval/01_haval_visao_frontal G70.jfif',
                     'G50': 'images/antes-depois/carros/01_haval_visao_frontal G50.jfif',
                     'G35': 'images/antes-depois/carros/01_haval_visao_frontal G35.jfif',
                     'G20': 'images/antes-depois/carros/01_haval_visao_frontal G20.jfif',
@@ -353,12 +329,12 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/01_haval_visao_traseira G5.jfif'
                 },
                 'interna': {
-                    'Original': 'images/antes-depois/carros/visão motorista HAVAL.jpeg',
-                    'G70': 'images/antes-depois/carros/visão motorista HAVAL G70.jpeg',
-                    'G50': 'images/antes-depois/carros/visão motorista HAVAL G50.png',
-                    'G35': 'images/antes-depois/carros/visão motorista HAVAL G35.jpeg',
-                    'G20': 'images/antes-depois/carros/visão motorista HAVAL G20.jpeg',
-                    'G5':  'images/antes-depois/carros/visão motorista HAVAL G5.jfif'
+                    'Original': 'images/antes-depois/carros/haval/visão motorista HAVAL.jpeg',
+                    'G70': 'images/antes-depois/carros/haval/visão motorista HAVAL G70.png',
+                    'G50': 'images/antes-depois/carros/haval/visão motorista HAVAL G50.jpeg',
+                    'G35': 'images/antes-depois/carros/haval/visão motorista HAVAL G35.jpeg',
+                    'G20': 'images/antes-depois/carros/haval/visão motorista HAVAL G20.jfif',
+                    'G5':  'images/antes-depois/carros/haval/visão motorista HAVAL G5.jfif'
                 }
             },
             'jetta': {
@@ -387,12 +363,12 @@ class ComparisonSlider {
                     'G5':  'images/antes-depois/carros/07_jetta_visaotraseiral  G5.jfif'
                 },
                 'interna': {
-                    'Original': 'images/antes-depois/carros/08_jetta_visao_motorista.jfif',
-                    'G70': 'images/antes-depois/carros/08_jetta_visao_motorista G70.jpeg',
-                    'G50': 'images/antes-depois/carros/08_jetta_visao_motorista G50.jpeg',
-                    'G35': 'images/antes-depois/carros/08_jetta_visao_motorista G35.jpeg',
-                    'G20': 'images/antes-depois/carros/08_jetta_visao_motorista G20.jpeg',
-                    'G5':  'images/antes-depois/carros/08_jetta_visao_motorista G5.jpeg'
+                    'Original': 'images/antes-depois/carros/jetta/08_jetta_visao_motorista.jfif',
+                    'G70': 'images/antes-depois/carros/jetta/08_jetta_visao_motorista G70.jpeg',
+                    'G50': 'images/antes-depois/carros/jetta/08_jetta_visao_motorista G50.jpeg',
+                    'G35': 'images/antes-depois/carros/jetta/08_jetta_visao_motorista G35.jpeg',
+                    'G20': 'images/antes-depois/carros/jetta/08_jetta_visao_motorista G20.jpeg',
+                    'G5':  'images/antes-depois/carros/jetta/08_jetta_visao_motorista G5.jpeg'
                 }
             }
         };

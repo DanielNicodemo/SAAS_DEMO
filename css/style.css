@@ -357,17 +357,6 @@ body {
     color: var(--text-color);
 }
 
-.produto-preco {
-    font-size: 1.2rem;
-    margin-bottom: 20px;
-    color: var(--text-color);
-}
-
-.produto-preco strong {
-    color: var(--primary-color);
-    font-size: 1.5rem;
-}
-
 .badge {
     position: absolute;
     top: 15px;
