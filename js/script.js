@@ -240,7 +240,7 @@ document.querySelectorAll('[data-modal]').forEach(button => {
                     ${produto.caracteristicas.map(item => `<li>${item}</li>`).join('')}
                 </ul>
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 25px;">
-                    <a href="https://wa.me/5511999999999?text=Olá! Gostaria de saber mais sobre o ${produto.titulo}" 
+                    <a href="https://wa.me/5514996003529?text=Olá! Gostaria de saber mais sobre o ${produto.titulo}"
                        class="btn btn-primary" 
                        target="_blank" 
                        rel="noopener"
@@ -1156,7 +1156,7 @@ contatoForm.addEventListener('submit', (e) => {
         texto += `\n\nMensagem: ${mensagem}`;
     }
     
-    const whatsappUrl = `https://wa.me/5511999999999?text=${encodeURIComponent(texto)}`;
+    const whatsappUrl = `https://wa.me/5514996003529?text=${encodeURIComponent(texto)}`;
     window.open(whatsappUrl, '_blank');
     
     
@@ -1333,5 +1333,5 @@ window.addEventListener('load', () => {
 });
 
 console.log('🚗 Insulfilm Premium - Landing Page carregada com sucesso!');
-console.log('📱 WhatsApp configurado para: +55 11 99999-9999');
+console.log('📱 WhatsApp configurado para: +55 14 99600-3529');
 console.log('⚡ Todas as funcionalidades ativas');
