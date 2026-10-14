@@ -117,9 +117,19 @@ body {
     font-weight: bold;
 }
 
-.logo img {
+.logo-main {
     width: 3.5rem;
     height: 3.5rem;
+    object-fit: cover;
+    object-position: left center;
+    border-radius: 50%;
+    display: block;
+    flex-shrink: 0;
+}
+
+.logo-partner {
+    width: 7rem;
+    height: 2.6rem;
     object-fit: contain;
     display: block;
     flex-shrink: 0;
