@@ -295,6 +295,10 @@ class ComparisonSlider {
         this.archSelect = document.getElementById('archSelect');
         this.ppfSelect = document.getElementById('ppfSelect');
         this.tintCards = document.querySelectorAll('.tint-card');
+        this.traditionalTintCards = document.querySelectorAll('.traditional-tint-card');
+        this.reflectiveTintCards = document.querySelectorAll('.reflective-tint-card');
+        this.archFilmSelector = document.getElementById('archFilmSelector');
+        this.archFilmButtons = document.querySelectorAll('.arch-film-btn');
         this.carModelSelector = document.getElementById('carModelSelector');
         this.archModelSelector = document.getElementById('archModelSelector');
         this.ppfModelSelector = document.getElementById('ppfModelSelector');
@@ -423,6 +427,14 @@ class ComparisonSlider {
             }
         };
 
+        this.archReflectiveImageDB = {
+            'prata': 'images/fotos utrion filmes/Fotos Refletivas/Edifício Moderno com Vidro Espelhado(prata).png',
+            'dourado': 'images/fotos utrion filmes/Fotos Refletivas/Edifício Moderno com Fachada Espelhada Dourada.png',
+            'azul': 'images/fotos utrion filmes/Fotos Refletivas/Edifício Moderno com Fachada Espelhada Azul.png',
+            'verde': 'images/fotos utrion filmes/Fotos Refletivas/Arquitetura Moderna em Vidro Verde.png',
+            'rose': 'images/fotos utrion filmes/Fotos Refletivas/Edifício Moderno com Vidro Rosé Espelhado.png'
+        };
+
         this.archClipDB = {
             'residencia1': 'polygon(13% 36%, 70% 36%, 70% 78%, 13% 78%)',
             'residencia2': 'polygon(0% 28%, 78% 28%, 78% 56%, 0% 56%)',
@@ -450,7 +462,8 @@ class ComparisonSlider {
             arch: 'residencia1',
             ppfCar: 'renault',
             tintLevel: 'G70',
-            tintRgba: 'rgba(0,0,0,0.3)'
+            tintRgba: 'rgba(0,0,0,0.3)',
+            archFilmType: 'traditional'
         };
 
         this.isDragging = false;
@@ -516,6 +529,7 @@ class ComparisonSlider {
                 if (this.state.type === 'automotivo') {
                     if (this.carModelSelector) this.carModelSelector.style.display = 'flex';
                     if (this.archModelSelector) this.archModelSelector.style.display = 'none';
+                    if (this.archFilmSelector) this.archFilmSelector.style.display = 'none';
                     if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'none';
                     if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'flex';
                     if (internaAngleBtn) internaAngleBtn.style.display = 'inline-flex';
@@ -523,7 +537,14 @@ class ComparisonSlider {
                     if (this.ppfInfoSection) this.ppfInfoSection.style.display = 'none';
                 } else if (this.state.type === 'arquitetura') {
                     if (this.carModelSelector) this.carModelSelector.style.display = 'none';
-                    if (this.archModelSelector) this.archModelSelector.style.display = 'flex';
+                    if (this.archModelSelector) this.archModelSelector.style.display = this.state.archFilmType === 'reflective' ? 'none' : 'flex';
+                    if (this.archFilmSelector) this.archFilmSelector.style.display = 'flex';
+                    this.traditionalTintCards.forEach((card) => {
+                        card.hidden = this.state.archFilmType === 'reflective';
+                    });
+                    this.reflectiveTintCards.forEach((card) => {
+                        card.hidden = this.state.archFilmType !== 'reflective';
+                    });
                     if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'none';
                     if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'none';
                     if (this.tintSelectorSection) this.tintSelectorSection.style.display = 'block';
@@ -531,6 +552,7 @@ class ComparisonSlider {
                 } else if (this.state.type === 'ppf') {
                     if (this.carModelSelector) this.carModelSelector.style.display = 'none';
                     if (this.archModelSelector) this.archModelSelector.style.display = 'none';
+                    if (this.archFilmSelector) this.archFilmSelector.style.display = 'none';
                     if (this.ppfModelSelector) this.ppfModelSelector.style.display = 'flex';
                     if (this.angleSelectorRow) this.angleSelectorRow.style.display = 'flex';
                     if (internaAngleBtn) internaAngleBtn.style.display = 'none';
@@ -563,6 +585,13 @@ class ComparisonSlider {
                 this.updateView();
             });
         }
+
+        this.archFilmButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const filmType = button.getAttribute('data-arch-film-type');
+                if (filmType) this.setArchFilmType(filmType);
+            });
+        });
 
         if (this.ppfSelect) {
             this.ppfSelect.addEventListener('change', (e) => {
@@ -610,6 +639,33 @@ class ComparisonSlider {
         image.src = source;
     }
 
+    setArchFilmType(filmType) {
+        if (filmType !== 'traditional' && filmType !== 'reflective') return;
+
+        this.state.archFilmType = filmType;
+        if (filmType === 'reflective') {
+            this.state.arch = 'empresa2';
+            this.state.tintLevel = 'prata';
+            if (this.archSelect) this.archSelect.value = 'empresa2';
+        } else {
+            this.state.tintLevel = 'G70';
+        }
+
+        this.archFilmButtons.forEach((button) => {
+            button.classList.toggle('active', button.getAttribute('data-arch-film-type') === filmType);
+        });
+        this.traditionalTintCards.forEach((card) => {
+            card.hidden = filmType === 'reflective';
+            card.classList.toggle('active', filmType === 'traditional' && card.getAttribute('data-comparison-level') === this.state.tintLevel);
+        });
+        this.reflectiveTintCards.forEach((card) => {
+            card.hidden = filmType !== 'reflective';
+            card.classList.toggle('active', filmType === 'reflective' && card.getAttribute('data-comparison-level') === this.state.tintLevel);
+        });
+        if (this.archModelSelector) this.archModelSelector.style.display = filmType === 'reflective' ? 'none' : 'flex';
+        this.updateView();
+    }
+
     updateView() {
         if (this.state.type === 'automotivo') {
             const carViews = this.imageDB[this.state.car] || this.imageDB['haval'];
@@ -651,19 +707,26 @@ class ComparisonSlider {
             const beforeSrc = (typeof archObj === 'object') ? (archObj['Original'] || archObj['base']) : archObj;
             let afterSrc = beforeSrc;
 
-            if (typeof archObj === 'object') {
+            if (this.state.archFilmType === 'reflective') {
+                afterSrc = this.archReflectiveImageDB[this.state.tintLevel] || this.archReflectiveImageDB['prata'];
+            } else if (typeof archObj === 'object') {
                 afterSrc = archObj[this.state.tintLevel] || archObj['G70'] || beforeSrc;
             }
 
-            this.setImageSource(this.beforeImage, beforeSrc);
-            this.beforeImage.alt = `Projeto Arquitetura (${archKey}) sem insulfilm`;
+            const reflectiveBeforeSrc = this.archImageDB.empresa2.Original;
+            this.setImageSource(this.beforeImage, this.state.archFilmType === 'reflective' ? reflectiveBeforeSrc : beforeSrc);
+            this.beforeImage.alt = this.state.archFilmType === 'reflective'
+                ? 'Empresa 2 sem insulfilm'
+                : `Projeto Arquitetura (${archKey}) sem insulfilm`;
             this.beforeImage.style.filter = 'none';
 
-            this.setImageSource(this.afterImage, afterSrc, beforeSrc);
-            this.afterImage.alt = `Projeto Arquitetura (${archKey}) com insulfilm ${this.state.tintLevel}`;
+            this.setImageSource(this.afterImage, afterSrc, this.state.archFilmType === 'reflective' ? reflectiveBeforeSrc : beforeSrc);
+            this.afterImage.alt = this.state.archFilmType === 'reflective'
+                ? `Empresa 2 com insulfilm refletivo ${this.state.tintLevel}`
+                : `Projeto Arquitetura (${archKey}) com insulfilm ${this.state.tintLevel}`;
 
             if (this.tintOverlayLayer) {
-                if (afterSrc !== beforeSrc) {
+                if (this.state.archFilmType === 'reflective' || afterSrc !== beforeSrc) {
                     this.tintOverlayLayer.style.display = 'none';
                 } else {
                     const clipVal = this.archClipDB[archKey] || this.archClipDB['residencia1'];
@@ -673,8 +736,10 @@ class ComparisonSlider {
                 }
             }
 
-            if (this.beforeBadge) this.beforeBadge.textContent = 'Sem Insulfilm';
-            if (this.afterBadge) this.afterBadge.textContent = `Com Insulfilm (${this.state.tintLevel})`;
+            if (this.beforeBadge) this.beforeBadge.textContent = this.state.archFilmType === 'reflective' ? 'Empresa 2: Antes' : 'Sem Insulfilm';
+            if (this.afterBadge) this.afterBadge.textContent = this.state.archFilmType === 'reflective'
+                ? `Empresa 2: Refletivo ${this.state.tintLevel}`
+                : `Com Insulfilm (${this.state.tintLevel})`;
             if (this.ppfGlossOverlay) this.ppfGlossOverlay.style.display = 'none';
         } else if (this.state.type === 'ppf') {
             const ppfCarViews = this.ppfImageDB[this.state.ppfCar] || this.ppfImageDB['renault'];
@@ -770,12 +835,14 @@ class InteractiveZoomModal {
         this.zoomResetBtn = document.getElementById('zoomResetBtn');
 
         this.zoomTintPills = document.querySelectorAll('.zoom-tint-pill');
+        this.zoomFilmTypePills = document.querySelectorAll('.zoom-film-pill');
         this.zoomAnglePills = document.querySelectorAll('.zoom-angle-pill');
         this.zoomTypePills = document.querySelectorAll('.zoom-type-pill');
         this.zoomCarSelect = document.getElementById('zoomCarSelect');
         this.zoomArchSelect = document.getElementById('zoomArchSelect');
         this.zoomPpfSelect = document.getElementById('zoomPpfSelect');
         this.zoomSideTintRail = document.getElementById('zoomSideTintRail');
+        this.zoomArchFilmGroup = document.getElementById('zoomArchFilmGroup');
 
         this.isOpen = false;
         this.scale = 1.8;
@@ -852,6 +919,13 @@ class InteractiveZoomModal {
                 }
 
                 this.slider.updateView();
+            });
+        });
+
+        this.zoomFilmTypePills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                const filmType = pill.getAttribute('data-zoom-film-type');
+                if (filmType && this.slider) this.slider.setArchFilmType(filmType);
             });
         });
 
@@ -992,6 +1066,7 @@ class InteractiveZoomModal {
         const currentType = this.slider.state.type;
         const currentTint = this.slider.state.tintLevel;
         const currentAngle = this.slider.state.angle;
+        const isReflectiveArchitecture = currentType === 'arquitetura' && this.slider.state.archFilmType === 'reflective';
 
         if (this.zoomCarSelect) {
             this.zoomCarSelect.value = this.slider.state.car;
@@ -1000,7 +1075,7 @@ class InteractiveZoomModal {
 
         if (this.zoomArchSelect) {
             this.zoomArchSelect.value = this.slider.state.arch;
-            this.zoomArchSelect.style.display = (currentType === 'arquitetura') ? 'inline-block' : 'none';
+            this.zoomArchSelect.style.display = (currentType === 'arquitetura' && !isReflectiveArchitecture) ? 'inline-block' : 'none';
         }
 
         if (this.zoomPpfSelect) {
@@ -1012,8 +1087,33 @@ class InteractiveZoomModal {
             this.zoomSideTintRail.style.display = (currentType === 'ppf') ? 'none' : 'flex';
         }
 
-        this.zoomTintPills.forEach(p => {
-            p.classList.toggle('active', p.getAttribute('data-zoom-tint') === currentTint);
+        const reflectiveTints = [
+            { key: 'prata', label: 'Prata' },
+            { key: 'dourado', label: 'Dourado' },
+            { key: 'azul', label: 'Azul' },
+            { key: 'verde', label: 'Verde' },
+            { key: 'rose', label: 'Rosé' }
+        ];
+        const traditionalTints = [
+            { key: 'G70', label: 'G70' },
+            { key: 'G50', label: 'G50' },
+            { key: 'G35', label: 'G35' },
+            { key: 'G20', label: 'G20' },
+            { key: 'G5', label: 'G5' }
+        ];
+        const zoomTints = isReflectiveArchitecture ? reflectiveTints : traditionalTints;
+        this.zoomTintPills.forEach((p, index) => {
+            const tint = zoomTints[index];
+            p.dataset.zoomTint = tint.key;
+            p.textContent = tint.label;
+            p.classList.toggle('active', tint.key === currentTint);
+        });
+
+        if (this.zoomArchFilmGroup) {
+            this.zoomArchFilmGroup.style.display = currentType === 'arquitetura' ? 'flex' : 'none';
+        }
+        this.zoomFilmTypePills.forEach(p => {
+            p.classList.toggle('active', p.getAttribute('data-zoom-film-type') === this.slider.state.archFilmType);
         });
 
         this.zoomAnglePills.forEach(p => {

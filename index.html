@@ -234,6 +234,13 @@
                         </select>
                     </div>
 
+                    <!-- Film Type Selector (Arquitetura) -->
+                    <div class="arch-film-selector" id="archFilmSelector" style="display: none;" role="group" aria-label="Tipo de insulfilm para arquitetura">
+                        <span class="arch-film-label"><i class="fas fa-layer-group"></i> Filme:</span>
+                        <button class="arch-film-btn active" data-arch-film-type="traditional" type="button">Fumê Tradicional</button>
+                        <button class="arch-film-btn" data-arch-film-type="reflective" type="button">Refletivo</button>
+                    </div>
+
                     <!-- Model Selector (PPF) -->
                     <div class="ppf-model-selector" id="ppfModelSelector" style="display: none;">
                         <label for="ppfSelect"><i class="fas fa-car-side"></i> Veículo PPF:</label>
@@ -298,7 +305,7 @@
                     <div class="tint-selector-section">
                         <h3 class="tint-selector-title">Escolha a tonalidade</h3>
                         <div class="tint-cards-grid" role="group" aria-label="Níveis de tonalidade">
-                            <button class="tint-card active" data-comparison-level="G70" data-rgba="rgba(0,0,0,0.3)" type="button">
+                            <button class="tint-card traditional-tint-card active" data-comparison-level="G70" data-rgba="rgba(0,0,0,0.3)" type="button">
                                 <div class="tint-swatch tint-g70">
                                     <span class="swatch-label">G70</span>
                                 </div>
@@ -307,7 +314,7 @@
                                     <span class="tint-desc">70% Transparência</span>
                                 </div>
                             </button>
-                            <button class="tint-card" data-comparison-level="G50" data-rgba="rgba(0,0,0,0.5)" type="button">
+                            <button class="tint-card traditional-tint-card" data-comparison-level="G50" data-rgba="rgba(0,0,0,0.5)" type="button">
                                 <div class="tint-swatch tint-g50">
                                     <span class="swatch-label">G50</span>
                                 </div>
@@ -316,7 +323,7 @@
                                     <span class="tint-desc">50% Transparência</span>
                                 </div>
                             </button>
-                            <button class="tint-card" data-comparison-level="G35" data-rgba="rgba(0,0,0,0.65)" type="button">
+                            <button class="tint-card traditional-tint-card" data-comparison-level="G35" data-rgba="rgba(0,0,0,0.65)" type="button">
                                 <div class="tint-swatch tint-g35">
                                     <span class="swatch-label">G35</span>
                                 </div>
@@ -325,7 +332,7 @@
                                     <span class="tint-desc">35% Transparência</span>
                                 </div>
                             </button>
-                            <button class="tint-card" data-comparison-level="G20" data-rgba="rgba(0,0,0,0.8)" type="button">
+                            <button class="tint-card traditional-tint-card" data-comparison-level="G20" data-rgba="rgba(0,0,0,0.8)" type="button">
                                 <div class="tint-swatch tint-g20">
                                     <span class="swatch-label">G20</span>
                                 </div>
@@ -334,7 +341,7 @@
                                     <span class="tint-desc">20% Transparência</span>
                                 </div>
                             </button>
-                            <button class="tint-card" data-comparison-level="G5" data-rgba="rgba(0,0,0,0.93)" type="button">
+                            <button class="tint-card traditional-tint-card" data-comparison-level="G5" data-rgba="rgba(0,0,0,0.93)" type="button">
                                 <div class="tint-swatch tint-g5">
                                     <span class="swatch-label">G5</span>
                                 </div>
@@ -342,6 +349,26 @@
                                     <span class="tint-name">G5</span>
                                     <span class="tint-desc">5% Transparência</span>
                                 </div>
+                            </button>
+                            <button class="tint-card reflective-tint-card" data-comparison-level="prata" type="button" hidden>
+                                <div class="tint-swatch tint-reflective-prata"><span class="swatch-label">Prata</span></div>
+                                <div class="tint-details"><span class="tint-name">Prata</span><span class="tint-desc">Refletivo</span></div>
+                            </button>
+                            <button class="tint-card reflective-tint-card" data-comparison-level="dourado" type="button" hidden>
+                                <div class="tint-swatch tint-reflective-dourado"><span class="swatch-label">Dourado</span></div>
+                                <div class="tint-details"><span class="tint-name">Dourado</span><span class="tint-desc">Refletivo</span></div>
+                            </button>
+                            <button class="tint-card reflective-tint-card" data-comparison-level="azul" type="button" hidden>
+                                <div class="tint-swatch tint-reflective-azul"><span class="swatch-label">Azul</span></div>
+                                <div class="tint-details"><span class="tint-name">Azul</span><span class="tint-desc">Refletivo</span></div>
+                            </button>
+                            <button class="tint-card reflective-tint-card" data-comparison-level="verde" type="button" hidden>
+                                <div class="tint-swatch tint-reflective-verde"><span class="swatch-label">Verde</span></div>
+                                <div class="tint-details"><span class="tint-name">Verde</span><span class="tint-desc">Refletivo</span></div>
+                            </button>
+                            <button class="tint-card reflective-tint-card" data-comparison-level="rose" type="button" hidden>
+                                <div class="tint-swatch tint-reflective-rose"><span class="swatch-label">Rosé</span></div>
+                                <div class="tint-details"><span class="tint-name">Rosé</span><span class="tint-desc">Refletivo</span></div>
                             </button>
                         </div>
                     </div>
@@ -632,6 +659,14 @@
                     <button class="zoom-type-pill active" data-zoom-type="automotivo" type="button"><i class="fas fa-car"></i> Auto</button>
                     <button class="zoom-type-pill" data-zoom-type="arquitetura" type="button"><i class="fas fa-building"></i> Arq</button>
                     <button class="zoom-type-pill" data-zoom-type="ppf" type="button"><i class="fas fa-shield-alt"></i> PPF</button>
+                </div>
+            </div>
+
+            <div class="zoom-floating-group" id="zoomArchFilmGroup" style="display: none;">
+                <span class="zoom-floating-label"><i class="fas fa-film"></i> Filme:</span>
+                <div class="zoom-floating-pills">
+                    <button class="zoom-film-pill active" data-zoom-film-type="traditional" type="button">Fumê</button>
+                    <button class="zoom-film-pill" data-zoom-film-type="reflective" type="button">Refletivo</button>
                 </div>
             </div>
 
