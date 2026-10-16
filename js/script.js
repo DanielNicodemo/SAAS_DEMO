@@ -925,7 +925,10 @@ class InteractiveZoomModal {
         this.zoomFilmTypePills.forEach(pill => {
             pill.addEventListener('click', () => {
                 const filmType = pill.getAttribute('data-zoom-film-type');
-                if (filmType && this.slider) this.slider.setArchFilmType(filmType);
+                if (filmType && this.slider) {
+                    this.slider.setArchFilmType(filmType);
+                    this.syncView();
+                }
             });
         });
 
@@ -1104,6 +1107,8 @@ class InteractiveZoomModal {
         const zoomTints = isReflectiveArchitecture ? reflectiveTints : traditionalTints;
         this.zoomTintPills.forEach((p, index) => {
             const tint = zoomTints[index];
+            p.hidden = !tint;
+            if (!tint) return;
             p.dataset.zoomTint = tint.key;
             p.textContent = tint.label;
             p.classList.toggle('active', tint.key === currentTint);
